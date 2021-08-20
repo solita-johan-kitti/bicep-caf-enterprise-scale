@@ -9,7 +9,7 @@ param resourceGroupNameLogs string = 'rg-logs-shared'
 @description('The name of the log anaylytic workspace.')
 param logAnalyticWorkspaceName string = 'la-logs-shared'
 
-param policySource string = 'https://github.com/solita-johan-kitti/bicep-caf-enterprise-scale'
+param policySource string = 'solita-johan-kitti/bicep-caf-enterprise-scale'
 param assignmentEnforcementMode string = 'Default'
 @allowed([
   'westeurope'
@@ -84,6 +84,6 @@ module assignments 'modules/policy-assignments/assignments.bicep' = {
     policySource: policySource
     assignmentIdentityLocation: location
     assignmentEnforcementMode: assignmentEnforcementMode
-    monitoringGovernanceID: initiatives.outputs.initiativeNames[0]
+    monitoringGovernanceID: initiatives.outputs.monitoringGovernanceId
   }  
 }

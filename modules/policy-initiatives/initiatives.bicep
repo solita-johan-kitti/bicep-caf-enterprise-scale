@@ -34,6 +34,8 @@ output initiativeNames array = [
   monitoringGovernance.name
 ]
 
+output monitoringGovernanceId string = monitoringGovernance.id
+
 // RESOURCES
 
 resource monitoringGovernance 'Microsoft.Authorization/policySetDefinitions@2020-09-01' = {
