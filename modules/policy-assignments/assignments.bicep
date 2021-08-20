@@ -26,6 +26,7 @@ output assignmentIDs array = [
 resource monitoringGovernanceAssignment 'Microsoft.Authorization/policyAssignments@2020-09-01' = {
   name: 'monitoringGovAssignment' // Max length 24 char
   location: assignmentIdentityLocation
+  scope: managementGroup()
   identity: {
     type: 'SystemAssigned'
   }
@@ -38,6 +39,7 @@ resource monitoringGovernanceAssignment 'Microsoft.Authorization/policyAssignmen
       version: '0.1.0'
     }
     policyDefinitionId: monitoringGovernanceID
+    
   }
 }
 /*
@@ -76,6 +78,7 @@ resource policyAssignment 'Microsoft.Authorization/policyAssignments@2020-09-01'
 
 resource monitoringGovernanceRoleAssignment 'Microsoft.Authorization/roleAssignments@2020-08-01-preview' = {
   name: guid(monitoringGovernanceAssignment.name, monitoringGovernanceAssignment.type, managementGroupID)
+  scope: managementGroup()
   properties: {
     principalId: monitoringGovernanceAssignment.identity.principalId
     roleDefinitionId: '/providers/microsoft.authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c' // contributor RBAC role for deployIfNotExists/modify effects
