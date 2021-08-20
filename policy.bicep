@@ -9,7 +9,7 @@ param resourceGroupNameLogs string = 'rg-logs-shared'
 @description('The name of the log anaylytic workspace.')
 param logAnalyticWorkspaceName string = 'la-logs-shared'
 
-param policySource string = 'solita-johan-kitti/bicep-caf-enterprise-scale'
+param policySource string = 'https://github.com/solita-johan-kitti/bicep-caf-enterprise-scale'
 param assignmentEnforcementMode string = 'Default'
 @allowed([
   'westeurope'
@@ -37,8 +37,6 @@ output resourceNamesForCleanup array = [
   assignments.outputs.assignmentNames
   //definitions.outputs.monitoringGovernancePolicies
 ]
-
-output monitoringGovernanceID string = initiatives.outputs.monitoringGovernanceId
 
 // RESOURCES
 module rgLog 'modules/foundation-resources/resourceGroups.bicep' = {
@@ -86,6 +84,6 @@ module assignments 'modules/policy-assignments/assignments.bicep' = {
     policySource: policySource
     assignmentIdentityLocation: location
     assignmentEnforcementMode: assignmentEnforcementMode
-    monitoringGovernanceID: initiatives.outputs.monitoringGovernanceId
+    monitoringGovernanceID: initiatives.outputs.initiativeNames[0]
   }  
 }
