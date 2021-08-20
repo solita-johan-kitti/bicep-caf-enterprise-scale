@@ -4,6 +4,11 @@ targetScope = 'managementGroup'
 //@description('The management group to deploy (scope) to')
 //param managementGroupName string
 
+@description('Resource goupe used for logs')
+param rgLogName string = 'rg-logs-shared'
+@description('The name of the log anaylytic workspace.')
+param logAnalyticWorkspaceName string = 'la-logs-shared'
+
 param policySource string = 'https://github.com/solita-johan-kitti/bicep-caf-enterprise-scale'
 param assignmentEnforcementMode string = 'Default'
 @allowed([
@@ -36,23 +41,26 @@ var tags = {
   'gdpr':               'no'
   'sla-level':          '1'
 }
-/*
-resource rgLog 'Microsoft.Resources/resourceGroups@2021-04-01' = {
-  name: log-rg
-  location: location
-  tags: tags
-}
 
-resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2020-10-01' = {
-  name: 'name'
-  location: location
-  properties: {
-    sku: {
-      name: 'Free'
-    }
+module rgLog 'modules/foundation-resources/rg.bicep' = {
+  scope: subscription('1b6348ed-c10a-42cf-9aa9-6b81e637c337')
+  name: 'rgLog'
+  params: {
+    rgName: rgLogName
+    tags: tags
   }
 }
-*/
+
+module logAnalyticWorkspace 'modules/foundation-resources/logAnalyticsWorkspace.bicep' = {
+  scope: resourceGroup('1b6348ed-c10a-42cf-9aa9-6b81e637c337', rgLogName)
+  name: logAnalyticWorkspaceName 
+  params: {
+    location: location
+    name: logAnalyticWorkspaceName
+    sku: 'Free' 
+    tags: tags
+  }
+}
 
 module initiatives 'modules/policy-initiatives/initiatives.bicep' = {
   scope: managementGroup() 
