@@ -12,7 +12,6 @@ param assignmentEnforcementMode string = 'Default'
 ])
 @description('Assignment Identity Location')
 param assignmentIdentityLocation string = 'westeurope'
-param location string
 
 // VARIABLES
 
@@ -22,11 +21,9 @@ param location string
 // outputs here can be consumed by an .azcli script to delete deployed resources
 output resourceNamesForCleanup array = [
   initiatives.outputs.initiativeNames
-  //assignments.outputs.assignmentNames
+  assignments.outputs.assignmentNames
   //definitions.outputs.monitoringGovernancePolicies
 ]
-
-// module deployed at management group level but in a different management group
 
 module initiatives 'modules/policy-initiatives/initiatives.bicep' = {
   scope: managementGroup() 
