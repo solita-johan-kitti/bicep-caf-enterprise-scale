@@ -27,7 +27,8 @@ param logAnalyticsWorkspace string
 
 // OUTPUTS
 output initiativeIDs array = [
-  tenantResourceId('Microsoft.Authorization/policyDefinitions', monitoringGovernance.id) 
+  // When scope is management group the initiativ id is wrong
+  tenantResourceId('Microsoft.Authorization/policySetDefinitions', monitoringGovernance.id) 
 ]
 
 output initiativeNames array = [
