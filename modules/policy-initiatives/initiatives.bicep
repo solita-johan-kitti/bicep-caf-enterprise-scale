@@ -58,7 +58,7 @@ resource monitoringGovernance 'Microsoft.Authorization/policySetDefinitions@2020
     }
  
     policyDefinitions: [for (policy, index) in monitoringGovernanceBuiltInPolicies: {
-      policyDefinitionId: '${policy.id}'
+      policyDefinitionId: '${policy.policyDefinitionId}'
       policyDefinitionReferenceId: '${policy.name}'
       parameters: {
         logAnalytics: {
