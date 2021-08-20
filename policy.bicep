@@ -5,7 +5,7 @@ targetScope = 'managementGroup'
 //param managementGroupName string
 
 @description('Resource goupe used for logs')
-param rgLogName string = 'rg-logs-shared'
+param resourceGroupNameLogs string = 'rg-logs-shared'
 @description('The name of the log anaylytic workspace.')
 param logAnalyticWorkspaceName string = 'la-logs-shared'
 
@@ -42,18 +42,23 @@ var tags = {
   'sla-level':          '1'
 }
 
-module rgLog 'modules/foundation-resources/rg.bicep' = {
+module rgLog 'modules/foundation-resources/resourceGroups.bicep' = {
   scope: subscription('1b6348ed-c10a-42cf-9aa9-6b81e637c337')
-  name: 'rgLog'
+  name: resourceGroupNameLogs
   params: {
-    rgName: rgLogName
+    resourceGroupName: resourceGroupNameLogs
+    location: location
     tags: tags
   }
 }
 
 module logAnalyticWorkspace 'modules/foundation-resources/logAnalyticsWorkspace.bicep' = {
-  scope: resourceGroup('1b6348ed-c10a-42cf-9aa9-6b81e637c337', rgLogName)
+  
+  scope: resourceGroup('1b6348ed-c10a-42cf-9aa9-6b81e637c337', resourceGroupNameLogs)
   name: logAnalyticWorkspaceName 
+  dependsOn: [
+    rgLog
+  ]
   params: {
     location: location
     name: logAnalyticWorkspaceName

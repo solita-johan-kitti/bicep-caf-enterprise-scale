@@ -7,6 +7,7 @@ param tags object
 
 // OUTPUTS
 output rgLogID string = rgLog.id
+output rgLogName string = rgLog.name
 
 //RESOURCES
 resource rgLog 'Microsoft.Resources/resourceGroups@2021-04-01' = {
