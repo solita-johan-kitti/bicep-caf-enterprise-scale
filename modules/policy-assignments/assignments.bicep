@@ -14,9 +14,9 @@ output assignmentNames array = [
   monitoringGovernanceAssignment.name
 ]
 
-//output roleAssignmentIDs array = [
-//  monitoringGovernanceRoleAssignment.id
-//]
+output roleAssignmentIDs array = [
+  monitoringGovernanceRoleAssignment.id
+]
 
 output assignmentIDs array = [
   monitoringGovernanceAssignment.id
