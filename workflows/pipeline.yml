@@ -22,7 +22,7 @@ jobs:
     - name: Build
       uses: aliencube/bicep-build-actions@v0.1
       with:
-        files: ./azure/main.bicep
+        files: $GITHUB_WORKSPACE/policy.bicep
 
   TEST-ENV:
     needs: BUILD  
