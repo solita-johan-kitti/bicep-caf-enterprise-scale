@@ -27,7 +27,7 @@ param logAnalyticsWorkspace string
 
 // OUTPUTS
 output initiativeIDs array = [
-  monitoringGovernance.id
+  tenantResourceId('Microsoft.Authorization/policyDefinitions', monitoringGovernance.id) 
 ]
 
 output initiativeNames array = [
@@ -36,7 +36,7 @@ output initiativeNames array = [
 
 // RESOURCES
 
-resource monitoringGovernance 'Microsoft.Authorization/policySetDefinitions@2020-03-01' = {
+resource monitoringGovernance 'Microsoft.Authorization/policySetDefinitions@2020-09-01' = {
   name: 'monitoringGovernance'
   properties: {
     displayName: 'Monitoring Governance Initiative (CloudBlox™)'
