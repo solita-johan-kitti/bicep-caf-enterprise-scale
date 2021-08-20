@@ -22,7 +22,7 @@ jobs:
     - name: Build
       uses: aliencube/bicep-build-actions@v0.1
       with:
-        files: policy.bicep
+        files: '**/*.bicep'
 
   TEST-ENV:
     needs: BUILD  
@@ -47,7 +47,7 @@ jobs:
       uses: azure/CLI@v1
       with:
         inlineScript: |
-          az deployment mg create -m mg-skanska-alz-sandbox -l westeurope  -f $GITHUB_WORKSPACE/policy.bicep -p $GITHUB_WORKSPACE/configurations/params-MG.json -o none
+          az deployment mg create -m mg-skanska-alz-sandbox -l westeurope  -f ./policy.bicep -p ./configurations/params-MG.json -o none
     - name: Sleep for 30s
       if: ${{ steps.bicepCD.outcome == 'failure' && steps.bicepCD.conclusion == 'success' }}
       uses: juliangruber/sleep-action@v1
