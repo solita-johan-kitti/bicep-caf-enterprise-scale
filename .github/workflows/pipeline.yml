@@ -32,7 +32,7 @@ jobs:
     - name: Echo
       run: echo Starts deployment to Test environments...
 
-  ALZ-Test-sub:
+  mg-skanska-alz-sandbox:
     needs: TEST-ENV  
     runs-on: ubuntu-latest
     steps:
@@ -40,7 +40,7 @@ jobs:
     - name: Azure Login
       uses: azure/login@v1
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS_ALZ_TEST_SUB }}
+        creds: ${{ secrets.AZURE_CREDENTIALS_MG_SKANSKA_ALZ_SANDBOX }}
     - name: Bicep CD
       id: bicepCD
       continue-on-error: true
