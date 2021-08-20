@@ -47,7 +47,7 @@ jobs:
       uses: azure/CLI@v1
       with:
         inlineScript: |
-          az deployment mg create -m mg-skanska-alz-sandbox -l westeurope  -f ./policy.bicep -p ./configurations/params-MG.json -o none
+          az deployment mg create -m mg-skanska-alz-sandbox -l westeurope  -f ./policy.bicep -p ./configurations/params-MG.json
     # Some times the deployment fails, wait and make a retry.
     - name: Sleep for 30s
       if: ${{ steps.bicepCD.outcome == 'failure' && steps.bicepCD.conclusion == 'success' }}
@@ -59,4 +59,4 @@ jobs:
       uses: azure/CLI@v1
       with:
         inlineScript: |
-          az deployment mg create -m mg-skanska-alz-sandbox -l westeurope  -f $GITHUB_WORKSPACE/policy.bicep -p $GITHUB_WORKSPACE/configurations/params-MG.json -o none
+          az deployment mg create -m mg-skanska-alz-sandbox -l westeurope  -f $GITHUB_WORKSPACE/policy.bicep -p $GITHUB_WORKSPACE/configurations/params-MG.json

@@ -76,6 +76,9 @@ module initiatives 'modules/policy-initiatives/initiatives.bicep' = {
 module assignments 'modules/policy-assignments/assignments.bicep' = {
   scope: managementGroup() 
   name: 'assignments'
+  dependsOn: [
+    initiatives
+  ]  
   params: {
     managementGroupID: managementGroupId
     policySource: policySource
