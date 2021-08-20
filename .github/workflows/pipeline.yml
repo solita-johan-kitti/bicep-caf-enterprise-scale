@@ -59,4 +59,4 @@ jobs:
       uses: azure/CLI@v1
       with:
         inlineScript: |
-          az deployment mg create -m mg-skanska-alz-sandbox -l westeurope  -f $GITHUB_WORKSPACE/policy.bicep -p $GITHUB_WORKSPACE/configurations/params-MG.json
+          az deployment mg create -m mg-skanska-alz-sandbox -l westeurope  -f ./policy.bicep -p ./configurations/params-MG.json
