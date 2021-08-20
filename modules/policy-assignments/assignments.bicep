@@ -37,9 +37,43 @@ resource monitoringGovernanceAssignment 'Microsoft.Authorization/policyAssignmen
       source: policySource
       version: '0.1.0'
     }
-    policyDefinitionId: monitoringGovernanceID
+    policyDefinitionId: '/providers/Microsoft.Management/managementGroups/mg-skanska-alz-sandbox/providers/Microsoft.Authorization/policySetDefinitions/monitoringGovernance'
+    //monitoringGovernanceID
   }
 }
+/*
+resource policyAssignment 'Microsoft.Authorization/policyAssignments@2020-09-01' = {
+  name: 'name'
+  location: 'location'
+  identity: {
+    type: 'SystemAssigned'
+  }
+  properties: {
+    displayName: 'displayName'
+    description: 'description'
+    enforcementMode: 'Default'
+    metadata: {
+      source: 'source'
+      version: '0.1.0'
+    }
+    policyDefinitionId: 'policyDefinitionId'
+    parameters: {
+      parameterName: {
+        value: 'value'
+      }
+    }
+    nonComplianceMessages: [
+      {
+        message: 'message'
+      }
+      {
+        message: 'message'
+        policyDefinitionReferenceId: 'policyDefinitionReferenceId'
+      }
+    ]
+  }
+}
+*/
 
 resource monitoringGovernanceRoleAssignment 'Microsoft.Authorization/roleAssignments@2020-10-01-preview' = {
   name: guid(monitoringGovernanceAssignment.name, monitoringGovernanceAssignment.type, managementGroupID)
