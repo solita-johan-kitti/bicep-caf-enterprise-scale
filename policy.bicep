@@ -19,19 +19,6 @@ param assignmentEnforcementMode string = 'Default'
 param location string = 'westeurope'
 
 // VARIABLES
-
-// OUTPUTS
-
-// RESOURCES
-// outputs here can be consumed by an .azcli script to delete deployed resources
-output resourceNamesForCleanup array = [
-  initiatives.outputs.initiativeNames
-  assignments.outputs.assignmentNames
-  //definitions.outputs.monitoringGovernancePolicies
-]
-
-// Prerequite resources.
-
 var tags = {
   'owner':              'Johan Kitti'
   'technical-owner':    'Johan Kitti'
@@ -42,6 +29,16 @@ var tags = {
   'sla-level':          '1'
 }
 
+
+// OUTPUTS
+// outputs here can be consumed by an .azcli script to delete deployed resources
+output resourceNamesForCleanup array = [
+  initiatives.outputs.initiativeNames
+  assignments.outputs.assignmentNames
+  //definitions.outputs.monitoringGovernancePolicies
+]
+
+// RESOURCES
 module rgLog 'modules/foundation-resources/resourceGroups.bicep' = {
   scope: subscription('1b6348ed-c10a-42cf-9aa9-6b81e637c337')
   name: resourceGroupNameLogs
