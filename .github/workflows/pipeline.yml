@@ -1,4 +1,4 @@
-name: api-managment-pipeline
+name: bicep-caf-enterprise-scale
 on:
   push:
     branches: [ main, feature/** ]
