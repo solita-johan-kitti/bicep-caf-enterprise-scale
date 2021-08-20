@@ -76,10 +76,9 @@ resource policyAssignment 'Microsoft.Authorization/policyAssignments@2020-09-01'
 }
 */
 
-
-resource monitoringGovernanceRoleAssignment 'Microsoft.Authorization/roleAssignments@2020-03-01-preview' = {
+resource monitoringGovernanceRoleAssignment 'Microsoft.Authorization/roleAssignments@2018-01-01-preview' = {
   name: guid(monitoringGovernanceAssignment.name, monitoringGovernanceAssignment.type, managementGroupID)
-  scope: monitoringGovernanceAssignment
+  //scope: monitoringGovernanceAssignment
   properties: {
     principalId: monitoringGovernanceAssignment.identity.principalId
     roleDefinitionId: '/providers/microsoft.authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c' // contributor RBAC role for deployIfNotExists/modify effects
