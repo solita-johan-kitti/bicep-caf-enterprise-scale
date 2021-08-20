@@ -56,29 +56,7 @@ resource monitoringGovernance 'Microsoft.Authorization/policySetDefinitions@2020
 //        }
 //      }
     }
-
-    policyDefinitions: [
-      {
-        policyDefinitionId: '/providers/Microsoft.Authorization/policyDefinitions/bef3f64c-5290-43b7-85b0-9b254eef4c47'
-        parameters: {
-          logAnalytics: {
-            value: logAnalyticsWorkspace
-          }
-          effect: {
-            value: 'DeployIfNotExists'
-          }
-          metricsEnabled: {
-            value: 'False'
-          }
-          logsEnabled: {
-            value: 'True'
-          }
-        }
-      }
-    ]
-    
  
-    /*
     policyDefinitions: [for (policy, index) in monitoringGovernanceBuiltInPolicies: {
       policyDefinitionId: policy.policyDefinitionId
       policyDefinitionReferenceId: policy.policyDefinitionId
@@ -97,7 +75,7 @@ resource monitoringGovernance 'Microsoft.Authorization/policySetDefinitions@2020
         }
       }
     }]
-    */
+    
 /*
     policyDefinitions: [
       {
