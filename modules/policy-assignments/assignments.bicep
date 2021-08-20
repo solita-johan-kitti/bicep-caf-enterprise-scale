@@ -24,7 +24,7 @@ output assignmentIDs array = [
 
 // RESOURCES
 resource monitoringGovernanceAssignment 'Microsoft.Authorization/policyAssignments@2020-09-01' = {
-  name: 'monitoringGovernanceAssignment'
+  name: 'monitoringGovAssignment' // Max length 24 char
   location: assignmentIdentityLocation
   identity: {
     type: 'SystemAssigned'
@@ -41,7 +41,7 @@ resource monitoringGovernanceAssignment 'Microsoft.Authorization/policyAssignmen
   }
 }
 
-resource monitoringGovernanceRoleAssignment 'Microsoft.Authorization/roleAssignments@2020-04-01-preview' = {
+resource monitoringGovernanceRoleAssignment 'Microsoft.Authorization/roleAssignments@2020-10-01-preview' = {
   name: guid(monitoringGovernanceAssignment.name, monitoringGovernanceAssignment.type, managementGroupID)
   properties: {
     principalId: monitoringGovernanceAssignment.identity.principalId
