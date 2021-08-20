@@ -19,8 +19,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Build
-      uses: aliencube/bicep-build-actions@v0.1
+    - name: Bicep Build
+      uses: aliencube/bicep-build-actions@v0.3
       with:
         files: '**/*.bicep'
 
@@ -48,6 +48,7 @@ jobs:
       with:
         inlineScript: |
           az deployment mg create -m mg-skanska-alz-sandbox -l westeurope  -f ./policy.bicep -p ./configurations/params-MG.json -o none
+    # Some times the deployment fails, wait and make a retry.
     - name: Sleep for 30s
       if: ${{ steps.bicepCD.outcome == 'failure' && steps.bicepCD.conclusion == 'success' }}
       uses: juliangruber/sleep-action@v1
