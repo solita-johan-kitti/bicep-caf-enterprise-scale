@@ -75,7 +75,7 @@ resource policyAssignment 'Microsoft.Authorization/policyAssignments@2020-09-01'
 }
 */
 
-resource monitoringGovernanceRoleAssignment 'Microsoft.Authorization/roleAssignments@2020-10-01-preview' = {
+resource monitoringGovernanceRoleAssignment 'Microsoft.Authorization/roleAssignments@2020-08-01-preview' = {
   name: guid(monitoringGovernanceAssignment.name, monitoringGovernanceAssignment.type, managementGroupID)
   properties: {
     principalId: monitoringGovernanceAssignment.identity.principalId
