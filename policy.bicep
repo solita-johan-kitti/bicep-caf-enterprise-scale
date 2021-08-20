@@ -38,6 +38,8 @@ output resourceNamesForCleanup array = [
   //definitions.outputs.monitoringGovernancePolicies
 ]
 
+output monitoringGovernanceID string = initiatives.outputs.monitoringGovernanceId
+
 // RESOURCES
 module rgLog 'modules/foundation-resources/resourceGroups.bicep' = {
   scope: subscription('1b6348ed-c10a-42cf-9aa9-6b81e637c337')
