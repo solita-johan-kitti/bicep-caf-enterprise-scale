@@ -31,6 +31,9 @@ output initiativeIDs array = [
   tenantResourceId('Microsoft.Authorization/policySetDefinitions', monitoringGovernance.id) 
 ]
 
+
+//Microsoft.Authorization/policySetDefinitions/monitoringGovernance
+///providers/Microsoft.Management/managementGroups/mg-skanska-alz-sandbox/providers/Microsoft.Authorization/policySetDefinitions/monitoringGovernance
 output initiativeNames array = [
   monitoringGovernance.name
 ]
