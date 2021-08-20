@@ -1,8 +1,8 @@
 targetScope = 'managementGroup'
 
 // PARAMETERS
-//@description('The management group to deploy (scope) to')
-//param managementGroupName string
+@description('The management group to deploy (scope) to')
+param managementGroupId string
 
 @description('Resource goupe used for logs')
 param resourceGroupNameLogs string = 'rg-logs-shared'
@@ -77,6 +77,7 @@ module assignments 'modules/policy-assignments/assignments.bicep' = {
   scope: managementGroup() 
   name: 'assignments'
   params: {
+    managementGroupID: managementGroupId
     policySource: policySource
     assignmentIdentityLocation: location
     assignmentEnforcementMode: assignmentEnforcementMode

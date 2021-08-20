@@ -14,7 +14,9 @@ param monitoringGovernanceBuiltInPolicies array = [
   {
     name: 'Deploy Diagnostic Settings for Key Vault to Log Analytics workspace'
     policyDefinitionId: '/providers/Microsoft.Authorization/policyDefinitions/bef3f64c-5290-43b7-85b0-9b254eef4c47'
-    enabled: true
+    effect: 'DeployIfNotExists'
+    metricsEnabled: false
+    logsEnabled: true
   }
 ]
 
@@ -61,6 +63,15 @@ resource monitoringGovernance 'Microsoft.Authorization/policySetDefinitions@2020
       parameters: {
         logAnalytics: {
           value: logAnalyticsWorkspace
+        }
+        effect: {
+          value: policy.effect
+        }
+        metricsEnabled: {
+          value: policy.metricsEnabled
+        }
+        logsEnabled: {
+          value: policy.logsEnabled
         }
       }
     }]
