@@ -37,8 +37,7 @@ resource monitoringGovernanceAssignment 'Microsoft.Authorization/policyAssignmen
       source: policySource
       version: '0.1.0'
     }
-    policyDefinitionId: '/providers/Microsoft.Management/managementGroups/mg-skanska-alz-sandbox/providers/Microsoft.Authorization/policySetDefinitions/monitoringGovernance'
-    //monitoringGovernanceID
+    policyDefinitionId: monitoringGovernanceID
   }
 }
 /*
