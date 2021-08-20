@@ -11,7 +11,7 @@ param assignmentEnforcementMode string = 'Default'
   'northeurope'
 ])
 @description('Assignment Identity Location')
-param assignmentIdentityLocation string = 'westeurope'
+param location string = 'westeurope'
 
 // VARIABLES
 
@@ -24,6 +24,35 @@ output resourceNamesForCleanup array = [
   assignments.outputs.assignmentNames
   //definitions.outputs.monitoringGovernancePolicies
 ]
+
+// Prerequite resources.
+
+var tags = {
+  'owner':              'Johan Kitti'
+  'technical-owner':    'Johan Kitti'
+  'costcenter':         '1234'
+  'project-identifier': 'M56879'
+  'environment':        'shared'
+  'gdpr':               'no'
+  'sla-level':          '1'
+}
+/*
+resource rgLog 'Microsoft.Resources/resourceGroups@2021-04-01' = {
+  name: log-rg
+  location: location
+  tags: tags
+}
+
+resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2020-10-01' = {
+  name: 'name'
+  location: location
+  properties: {
+    sku: {
+      name: 'Free'
+    }
+  }
+}
+*/
 
 module initiatives 'modules/policy-initiatives/initiatives.bicep' = {
   scope: managementGroup() 
@@ -38,7 +67,7 @@ module assignments 'modules/policy-assignments/assignments.bicep' = {
   name: 'assignments'
   params: {
     policySource: policySource
-    assignmentIdentityLocation: assignmentIdentityLocation
+    assignmentIdentityLocation: location
     assignmentEnforcementMode: assignmentEnforcementMode
     monitoringGovernanceID: initiatives.outputs.initiativeIDs[0]
   }  
