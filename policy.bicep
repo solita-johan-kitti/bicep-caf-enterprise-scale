@@ -41,7 +41,7 @@ module assignments 'modules/policy-assignments/assignments.bicep' = {
   name: 'assignments'
   params: {
     policySource: policySource
-    assignmentIdentityLocation: location
+    assignmentIdentityLocation: assignmentIdentityLocation
     assignmentEnforcementMode: assignmentEnforcementMode
     monitoringGovernanceID: initiatives.outputs.initiativeIDs[0]
   }  
