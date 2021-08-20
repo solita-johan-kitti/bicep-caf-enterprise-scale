@@ -70,6 +70,7 @@ module initiatives 'modules/policy-initiatives/initiatives.bicep' = {
   params:{
     policySource: policySource
     logAnalyticsWorkspace: logAnalyticWorkspace.outputs.logAnalyticsWorkspaceID
+    managementGroupId: managementGroupId
   }
 }
 

@@ -8,6 +8,7 @@ targetScope = 'managementGroup'
 
 // PARAMETERS   
 param policySource string
+param managementGroupId string
 //param monitoringGovernancePolicies array
 
 param monitoringGovernanceBuiltInPolicies array = [
@@ -27,8 +28,8 @@ param logAnalyticsWorkspace string
 
 // OUTPUTS
 output initiativeIDs array = [
-  // When scope is management group the initiativ id is wrong
-  tenantResourceId('Microsoft.Authorization/policySetDefinitions', monitoringGovernance.name) 
+  // When scope is management group the initiativ id not returning the full id
+  '${tenantResourceId('Microsoft.Management/managementGroups', managementGroupId)}${tenantResourceId('Microsoft.Authorization/policySetDefinitions', monitoringGovernance.name)}' 
 ]
 
 
