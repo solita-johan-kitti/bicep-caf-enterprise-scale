@@ -46,7 +46,7 @@ resource monitoringCaCGovernance 'Microsoft.Authorization/policySetDefinitions@2
   properties: {
     displayName: 'Monitoring CaC Governance (CloudBlox™)'
     policyType: 'Custom'
-    description: 'The CloudBlox™ Governance Monitoring Compliance As Code (CaC) Governance Initiative Diagnostic Logs '
+    description: 'The CloudBlox™ Governance Monitoring Compliance As Code (CaC) Governance Initiative'
     metadata: {
       version: '0.1.0'
       category: 'CloudBlox™ - Monitoring (CaC)'
@@ -61,7 +61,31 @@ resource monitoringCaCGovernance 'Microsoft.Authorization/policySetDefinitions@2
           strongType: 'omsWorkspace'
           assignPermissions: true
         }
-      }      
+      }    
+      activitylogsEffect: {
+        type: 'String'
+        metadata: {
+          displayName: 'Effect'
+          description: 'Enable or disable the execution of the policy'
+        }
+        allowedValues: [
+          'DeployIfNotExists'
+          'Disabled'
+        ]
+        defaultValue: 'DeployIfNotExists'        
+      }
+      activitylogsLogsEnabled: {
+        type: 'String'
+        metadata: {
+          displayName: 'Enable logs'
+          description: 'Whether to enable logs stream to the Log Analytics workspace - True or False'
+        }
+        allowedValues: [
+          'True'
+          'False'
+        ]
+        defaultValue: 'True'
+      }         
       keyVaultEffect: {
         type: 'String'
         metadata: {
@@ -98,7 +122,7 @@ resource monitoringCaCGovernance 'Microsoft.Authorization/policySetDefinitions@2
         ]
         defaultValue: 'True'
       }
-      activitylogsEffect: {
+      serviceBusEffect: {
         type: 'String'
         metadata: {
           displayName: 'Effect'
@@ -110,7 +134,19 @@ resource monitoringCaCGovernance 'Microsoft.Authorization/policySetDefinitions@2
         ]
         defaultValue: 'DeployIfNotExists'        
       }
-      activitylogsLogsEnabled: {
+      serviceBusMetricsEnabled: {
+        type: 'String'
+        metadata: {
+          displayName: 'Enable metrics'
+          description: 'Whether to enable metrics stream to the Log Analytics workspace - True or False'
+        }
+        allowedValues: [
+          'True'
+          'False'
+        ]
+        defaultValue: 'False'
+      }
+      serviceBusLogsEnabled: {
         type: 'String'
         metadata: {
           displayName: 'Enable logs'
@@ -121,10 +157,25 @@ resource monitoringCaCGovernance 'Microsoft.Authorization/policySetDefinitions@2
           'False'
         ]
         defaultValue: 'True'
-      }      
+      }          
     }
  
     policyDefinitions: [
+      {
+        policyDefinitionReferenceId: 'Configure Azure Activity logs to stream to specified Log Analytics workspace'
+        policyDefinitionId: '/providers/Microsoft.Authorization/policyDefinitions/2465583e-4e78-4c15-b6be-a36cbc7c8b0f'
+        parameters: {
+          logAnalytics: {
+            value: '[parameters(\'logAnalytics\')]'
+          }
+          effect: {
+            value: '[parameters(\'activitylogsEffect\')]'
+          }
+          logsEnabled: {
+            value: '[parameters(\'activitylogsLogsEnabled\')]' 
+          }
+        }
+      }      
       {
         policyDefinitionReferenceId: 'Deploy Diagnostic Settings for Key Vault to Log Analytics workspace'
         policyDefinitionId: '/providers/Microsoft.Authorization/policyDefinitions/bef3f64c-5290-43b7-85b0-9b254eef4c47'
@@ -144,20 +195,26 @@ resource monitoringCaCGovernance 'Microsoft.Authorization/policySetDefinitions@2
         }
       }
       {
-        policyDefinitionReferenceId: 'Configure Azure Activity logs to stream to specified Log Analytics workspace'
+        policyDefinitionReferenceId: 'Deploy Diagnostic Settings for Service Bus to Log Analytics workspace'
         policyDefinitionId: '/providers/Microsoft.Authorization/policyDefinitions/2465583e-4e78-4c15-b6be-a36cbc7c8b0f'
         parameters: {
           logAnalytics: {
             value: '[parameters(\'logAnalytics\')]'
           }
           effect: {
-            value: '[parameters(\'activitylogsEffect\')]'
+            value: '[parameters(\'serviceBusEffect\')]'
+          }
+          metricsEnabled: {
+            value: '[parameters(\'serviceBustMetricsEnabled\')]' 
           }
           logsEnabled: {
-            value: '[parameters(\'activitylogsLogsEnabled\')]' 
+            value: '[parameters(\'serviceBusLogsEnabled\')]'
           }
         }
       }
+
+
+      /providers/Microsoft.Authorization/policyDefinitions/04d53d87-841c-4f23-8a5b-21564380b55e
     ]
 
 /*    
