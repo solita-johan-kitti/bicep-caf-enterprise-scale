@@ -78,9 +78,9 @@ resource policyAssignment 'Microsoft.Authorization/policyAssignments@2020-09-01'
 
 resource monitoringGovernanceRoleAssignment 'Microsoft.Authorization/roleAssignments@2018-01-01-preview' = {
   name: guid(monitoringGovernanceAssignment.name, monitoringGovernanceAssignment.type, managementGroupID)
-  dependsOn: [
-    monitoringGovernanceAssignment
-  ]
+  //dependsOn: [
+  //  monitoringGovernanceAssignment
+  //]
   scope: monitoringGovernanceAssignment
   properties: {
     principalId: monitoringGovernanceAssignment.identity.principalId
