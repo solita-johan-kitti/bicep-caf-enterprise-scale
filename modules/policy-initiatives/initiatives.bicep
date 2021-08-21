@@ -10,7 +10,7 @@ targetScope = 'managementGroup'
 param policySource string
 param managementGroupId string
 //param monitoringGovernancePolicies array
-
+/*
 param monitoringGovernanceBuiltInPolicies array = [
   {
     name: 'Deploy Diagnostic Settings for Key Vault to Log Analytics workspace'
@@ -26,6 +26,7 @@ param monitoringGovernanceBuiltInPolicies array = [
     logsEnabled: 'True'
   }
 ]
+*/
 
 @description('The name of the log anaylytic workspace to send diagnostic logs to.')
 param logAnalyticsWorkspace string
@@ -115,8 +116,8 @@ resource monitoringGovernance 'Microsoft.Authorization/policySetDefinitions@2020
           effect: {
             value: 'DeployIfNotExists'
           }
-          metricsEnabled: {
-            value: 'False' 
+          logsEnabled: {
+            value: 'True' 
           }
         }
       }
