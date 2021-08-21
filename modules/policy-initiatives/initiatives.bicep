@@ -49,7 +49,7 @@ resource monitoringCaCGovernance 'Microsoft.Authorization/policySetDefinitions@2
     description: 'The CloudBlox™ Governance Monitoring Compliance As Code (CaC) Governance Initiative Diagnostic Logs '
     metadata: {
       version: '0.1.0'
-      category: 'CloudBlox™ - Monitoring - (CaC)'
+      category: 'CloudBlox™ - Monitoring (CaC)'
       source: policySource
     }
     parameters: {

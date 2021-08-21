@@ -40,7 +40,7 @@ resource monitoringCaCGovernanceAssignment 'Microsoft.Authorization/policyAssign
     }
     policyDefinitionId: monitoringCaCGovernanceID
     parameters: {
-      logAnalyticsWorkspace: {
+      logAnalytics: {
         value: logAnalyticsWorkspace
       }  
     } 

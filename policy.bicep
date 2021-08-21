@@ -73,7 +73,6 @@ module initiatives 'modules/policy-initiatives/initiatives.bicep' = {
   name: 'initiatives'
   params:{
     policySource: policySource
-    logAnalyticsWorkspace: logAnalyticWorkspace.outputs.logAnalyticsWorkspaceID
     managementGroupId: managementGroupId
   }
 }
@@ -86,9 +85,10 @@ module assignments 'modules/policy-assignments/assignments.bicep' = {
   ]  
   params: {
     managementGroupID: managementGroupId
+    logAnalyticsWorkspace: logAnalyticWorkspace.outputs.logAnalyticsWorkspaceID
     policySource: policySource
     assignmentIdentityLocation: location
     assignmentEnforcementMode: assignmentEnforcementMode
-    monitoringCaCGovernanceID: monitoringCaCGovernance.outputs.initiativeIDs[0]
+    monitoringCaCGovernanceID: initiatives.outputs.initiativeIDs[0]
   }  
 }
