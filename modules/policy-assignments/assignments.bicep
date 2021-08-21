@@ -81,7 +81,7 @@ resource monitoringGovernanceRoleAssignment 'Microsoft.Authorization/roleAssignm
   //dependsOn: [
   //  monitoringGovernanceAssignment
   //]
-  scope: monitoringGovernanceAssignment
+  //scope: monitoringGovernanceAssignment
   properties: {
     principalId: monitoringGovernanceAssignment.identity.principalId
     //roleDefinitionId: '/providers/microsoft.authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c' // contributor RBAC role for deployIfNotExists/modify effects
