@@ -19,14 +19,12 @@ param monitoringGovernanceBuiltInPolicies array = [
     metricsEnabled: 'False'
     logsEnabled: 'True'
   }
-/*
   {
     name: 'Configure Azure Activity logs to stream to specified Log Analytics workspace'
     policyDefinitionId: '/providers/Microsoft.Authorization/policyDefinitions/2465583e-4e78-4c15-b6be-a36cbc7c8b0f'
     effect: 'DeployIfNotExists'
     logsEnabled: 'True'
   }
-  */
 ]
 
 @description('The name of the log anaylytic workspace to send diagnostic logs to.')
