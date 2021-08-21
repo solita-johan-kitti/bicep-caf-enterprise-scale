@@ -72,6 +72,7 @@ resource monitoringCaCGovernance 'Microsoft.Authorization/policySetDefinitions@2
           'DeployIfNotExists'
           'Disabled'
         ]
+        defaultValue: 'DeployIfNotExists'        
       }
       keyVaultMetricsEnabled: {
         type: 'String'
@@ -97,7 +98,6 @@ resource monitoringCaCGovernance 'Microsoft.Authorization/policySetDefinitions@2
         ]
         defaultValue: 'True'
       }
-
       activitylogsEffect: {
         type: 'String'
         metadata: {
@@ -108,6 +108,7 @@ resource monitoringCaCGovernance 'Microsoft.Authorization/policySetDefinitions@2
           'DeployIfNotExists'
           'Disabled'
         ]
+        defaultValue: 'DeployIfNotExists'        
       }
       activitylogsLogsEnabled: {
         type: 'String'
@@ -123,27 +124,6 @@ resource monitoringCaCGovernance 'Microsoft.Authorization/policySetDefinitions@2
       }      
     }
  
-/*    
-    policyDefinitions: [for (policy, index) in monitoringGovernanceBuiltInPolicies: {
-      policyDefinitionId: policy.policyDefinitionId
-      policyDefinitionReferenceId: policy.name
-      parameters: {
-        logAnalytics: {
-          value: logAnalyticsWorkspace
-        }
-        effect: {
-          value: policy.effect
-        }
-        metricsEnabled: {
-          value: policy.metricsEnabled 
-        }
-        logsEnabled: {
-          value: policy.logsEnabled
-        }
-      }
-    }]
-*/
-
     policyDefinitions: [
       {
         policyDefinitionReferenceId: 'Deploy Diagnostic Settings for Key Vault to Log Analytics workspace'
@@ -179,5 +159,27 @@ resource monitoringCaCGovernance 'Microsoft.Authorization/policySetDefinitions@2
         }
       }
     ]
+
+/*    
+    policyDefinitions: [for (policy, index) in monitoringGovernanceBuiltInPolicies: {
+      policyDefinitionId: policy.policyDefinitionId
+      policyDefinitionReferenceId: policy.name
+      parameters: {
+        logAnalytics: {
+          value: logAnalyticsWorkspace
+        }
+        effect: {
+          value: policy.effect
+        }
+        metricsEnabled: {
+          value: policy.metricsEnabled 
+        }
+        logsEnabled: {
+          value: policy.logsEnabled
+        }
+      }
+    }]
+*/
+
   }
 }
