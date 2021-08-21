@@ -31,8 +31,8 @@ resource monitoringCaCGovernanceAssignment 'Microsoft.Authorization/policyAssign
     type: 'SystemAssigned'
   }
   properties: {
-    displayName: 'Monitoring Governance Assignment (CloudBlox™)'
-    description: 'The CloudBlox™ Monitoring Governance Assignment'
+    displayName: 'Monitoring CaC Governance (CloudBlox™)'
+    description: 'The CloudBlox™ Governance Monitoring Compliance As Code (CaC) Governance  Assignment'
     enforcementMode: assignmentEnforcementMode
     metadata: {
       source: policySource
