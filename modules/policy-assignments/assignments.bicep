@@ -4,14 +4,15 @@ targetScope = 'managementGroup'
 param policySource string
 param assignmentIdentityLocation string
 param assignmentEnforcementMode string
-param monitoringGovernanceID string
+param monitoringCaCGovernanceID string
 param managementGroupID string
-
+@description('The name of the log anaylytic workspace to send diagnostic logs to.')
+param logAnalyticsWorkspace string
 // VARIABLES
 
 // OUTPUTS
 output assignmentNames array = [
-  monitoringGovernanceAssignment.name
+  monitoringCaCGovernanceAssignment.name
 ]
 
 output roleAssignmentIDs array = [
@@ -19,14 +20,13 @@ output roleAssignmentIDs array = [
 ]
 
 output assignmentIDs array = [
-  monitoringGovernanceAssignment.id
+  monitoringCaCGovernanceAssignment.id
 ]
 
 // RESOURCES
-resource monitoringGovernanceAssignment 'Microsoft.Authorization/policyAssignments@2020-09-01' = {
-  name: 'monitoringGovAssignment' // Max length 24 char
+resource monitoringCaCGovernanceAssignment 'Microsoft.Authorization/policyAssignments@2020-09-01' = {
+  name: 'monitoringCaCGovAss' // Max length 24 char
   location: assignmentIdentityLocation
-  //scope: managementGroup()
   identity: {
     type: 'SystemAssigned'
   }
@@ -38,32 +38,13 @@ resource monitoringGovernanceAssignment 'Microsoft.Authorization/policyAssignmen
       source: policySource
       version: '0.1.0'
     }
-    policyDefinitionId: monitoringGovernanceID
-    
-  }
-}
-/*
-resource policyAssignment 'Microsoft.Authorization/policyAssignments@2020-09-01' = {
-  name: 'name'
-  location: 'location'
-  identity: {
-    type: 'SystemAssigned'
-  }
-  properties: {
-    displayName: 'displayName'
-    description: 'description'
-    enforcementMode: 'Default'
-    metadata: {
-      source: 'source'
-      version: '0.1.0'
-    }
-    policyDefinitionId: 'policyDefinitionId'
+    policyDefinitionId: monitoringCaCGovernanceID
     parameters: {
-      parameterName: {
-        value: 'value'
-      }
-    }
-    nonComplianceMessages: [
+      logAnalyticsWorkspace: {
+        value: logAnalyticsWorkspace
+      }  
+    } 
+ /*   nonComplianceMessages: [
       {
         message: 'message'
       }
@@ -71,19 +52,14 @@ resource policyAssignment 'Microsoft.Authorization/policyAssignments@2020-09-01'
         message: 'message'
         policyDefinitionReferenceId: 'policyDefinitionReferenceId'
       }
-    ]
+    ]*/   
   }
 }
-*/
 
 resource monitoringGovernanceRoleAssignment 'Microsoft.Authorization/roleAssignments@2018-01-01-preview' = {
-  name: guid(monitoringGovernanceAssignment.name, monitoringGovernanceAssignment.type, managementGroupID)
-  //dependsOn: [
-  //  monitoringGovernanceAssignment
-  //] 
-  //scope: monitoringGovernanceAssignment
+  name: guid(monitoringCaCGovernanceAssignment.name, monitoringCaCGovernanceAssignment.type, managementGroupID)
   properties: {
-    principalId: monitoringGovernanceAssignment.identity.principalId
+    principalId: monitoringCaCGovernanceAssignment.identity.principalId
     //roleDefinitionId: '/providers/microsoft.authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c' // contributor RBAC role for deployIfNotExists/modify effects
     roleDefinitionId: '/providers/microsoft.authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635' // Owner  RBAC role for deployIfNotExists/modify effects
   }

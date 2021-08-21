@@ -89,6 +89,6 @@ module assignments 'modules/policy-assignments/assignments.bicep' = {
     policySource: policySource
     assignmentIdentityLocation: location
     assignmentEnforcementMode: assignmentEnforcementMode
-    monitoringGovernanceID: initiatives.outputs.initiativeIDs[0]
+    monitoringCaCGovernanceID: monitoringCaCGovernance.outputs.initiativeIDs[0]
   }  
 }
