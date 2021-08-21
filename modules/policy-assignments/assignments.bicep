@@ -80,7 +80,7 @@ resource monitoringGovernanceRoleAssignment 'Microsoft.Authorization/roleAssignm
   name: guid(monitoringGovernanceAssignment.name, monitoringGovernanceAssignment.type, managementGroupID)
   //dependsOn: [
   //  monitoringGovernanceAssignment
-  //]
+  //] 
   //scope: monitoringGovernanceAssignment
   properties: {
     principalId: monitoringGovernanceAssignment.identity.principalId
