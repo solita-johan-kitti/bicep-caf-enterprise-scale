@@ -1,1 +1,2 @@
-az policy state trigger-scan
+# optional step to trigger a subscription-level policy compliance scan 
+az policy state trigger-scan --no-wait
