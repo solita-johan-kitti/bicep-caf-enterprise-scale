@@ -33,7 +33,6 @@ param logAnalyticsWorkspace string
 
 // VARIABLES
 
-
 // OUTPUTS
 output initiativeIDs array = [
   // When scope is management group the initiativ id not returning the full id
