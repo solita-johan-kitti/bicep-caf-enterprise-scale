@@ -65,6 +65,7 @@ resource monitoringGovernance 'Microsoft.Authorization/policySetDefinitions@2020
 //      }
     }
  
+/*    
     policyDefinitions: [for (policy, index) in monitoringGovernanceBuiltInPolicies: {
       policyDefinitionId: policy.policyDefinitionId
       policyDefinitionReferenceId: policy.name
@@ -76,26 +77,49 @@ resource monitoringGovernance 'Microsoft.Authorization/policySetDefinitions@2020
           value: policy.effect
         }
         metricsEnabled: {
-          value: ((!empty( policy.metricsEnabled)) ?  policy.metricsEnabled : json('null')) 
+          value: policy.metricsEnabled 
         }
         logsEnabled: {
           value: policy.logsEnabled
         }
       }
     }]
-    
-/*
+*/
+
     policyDefinitions: [
       {
-        policyDefinitionId: 'policyDefinitionId'
-        policyDefinitionReferenceId: 'policyDefinitionReferenceId'
+        policyDefinitionReferenceId: 'Deploy Diagnostic Settings for Key Vault to Log Analytics workspace'
+        policyDefinitionId: '/providers/Microsoft.Authorization/policyDefinitions/bef3f64c-5290-43b7-85b0-9b254eef4c47'
         parameters: {
-          parameterName: {
-            value: 'value'
+          logAnalytics: {
+            value: logAnalyticsWorkspace
+          }
+          effect: {
+            value: 'DeployIfNotExists'
+          }
+          metricsEnabled: {
+            value: 'False' 
+          }
+          logsEnabled: {
+            value: 'True'
+          }
+        }
+      }
+      {
+        policyDefinitionReferenceId: 'Configure Azure Activity logs to stream to specified Log Analytics workspace'
+        policyDefinitionId: '/providers/Microsoft.Authorization/policyDefinitions/2465583e-4e78-4c15-b6be-a36cbc7c8b0f'
+        parameters: {
+          logAnalytics: {
+            value: logAnalyticsWorkspace
+          }
+          effect: {
+            value: 'DeployIfNotExists'
+          }
+          metricsEnabled: {
+            value: 'False' 
           }
         }
       }
     ]
-*/    
   }
 }
