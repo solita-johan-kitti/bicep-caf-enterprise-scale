@@ -76,7 +76,7 @@ resource monitoringGovernance 'Microsoft.Authorization/policySetDefinitions@2020
           value: policy.effect
         }
         metricsEnabled: {
-          value: policy.metricsEnabled
+          value: ((!empty( policy.metricsEnabled)) ?  policy.metricsEnabled : json('null')) 
         }
         logsEnabled: {
           value: policy.logsEnabled
