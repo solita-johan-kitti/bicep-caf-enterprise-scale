@@ -33,20 +33,21 @@ param monitoringGovernanceBuiltInPolicies array = [
 // OUTPUTS
 output initiativeIDs array = [
   // When scope is management group the initiativ id not returning the full id
-  '${tenantResourceId('Microsoft.Management/managementGroups', managementGroupId)}${tenantResourceId('Microsoft.Authorization/policySetDefinitions', monitoringCaCGovernance.name)}' 
+  '${tenantResourceId('Microsoft.Management/managementGroups', managementGroupId)}${tenantResourceId('Microsoft.Authorization/policySetDefinitions', monitoringCaCDiagSetLAGovernanceInitiative.name)}' 
 ]
 output initiativeNames array = [
-  monitoringCaCGovernance.name
+  monitoringCaCDiagSetLAGovernanceInitiative.name
 ]
 
 // RESOURCES
 
-resource monitoringCaCGovernance 'Microsoft.Authorization/policySetDefinitions@2020-09-01' = {
-  name: 'monitoringCaCGovernance'
+// Initiativ monitoring Compliance as Code (CaC) - diagnostic settings to log analytics
+resource monitoringCaCDiagSetLAGovernanceInitiative 'Microsoft.Authorization/policySetDefinitions@2020-09-01' = {
+  name: 'monitoringCaCDiagSetLAGovernanceInitiative'
   properties: {
-    displayName: 'Monitoring CaC Governance (CloudBlox™)'
+    displayName: 'Diagnostic Settings to Log Analytics Monitoring Compliance As Code (CaC) Governance'
     policyType: 'Custom'
-    description: 'The CloudBlox™ Governance Monitoring Compliance As Code (CaC) Governance Initiative'
+    description: 'The CloudBlox™ Governance Diagnostic Settings to Log Analytics Monitoring Compliance As Code (CaC) Governance Initiative'
     metadata: {
       version: '0.1.0'
       category: 'CloudBlox™ - Monitoring (CaC)'
