@@ -26,7 +26,7 @@ output assignmentIDs array = [
 
 // RESOURCES
 resource monitoringCaCDiagSetLAGovernanceAssignment 'Microsoft.Authorization/policyAssignments@2020-09-01' = {
-  name: 'DiagSetToLaCaCGov' // Max length 24 char
+  name: 'diagSetToLaCaCGovernance' // Max length 24 char
   location: assignmentIdentityLocation
   identity: {
     type: 'SystemAssigned'
@@ -59,7 +59,7 @@ resource monitoringCaCDiagSetLAGovernanceAssignment 'Microsoft.Authorization/pol
 }
 
 resource securityGovernanceAssignment 'Microsoft.Authorization/policyAssignments@2020-09-01' = {
-  name: 'securityGov' // Max length 24 char
+  name: 'securityGovernance' // Max length 24 char
   location: assignmentIdentityLocation
   identity: {
     type: 'SystemAssigned'
@@ -92,7 +92,7 @@ resource securityGovernanceAssignment 'Microsoft.Authorization/policyAssignments
   }
 }
 
-resource onitoringCaCDiagSetLAGovernanceRoleAssignment 'Microsoft.Authorization/roleAssignments@2018-01-01-preview' = {
+resource monitoringCaCDiagSetLAGovernanceRoleAssignment 'Microsoft.Authorization/roleAssignments@2018-01-01-preview' = {
   name: guid(monitoringCaCDiagSetLAGovernanceAssignment.name, monitoringCaCDiagSetLAGovernanceAssignment.type, managementGroupID)
   properties: {
     principalId: monitoringCaCDiagSetLAGovernanceAssignment.identity.principalId
