@@ -68,12 +68,24 @@ module logAnalyticWorkspace 'modules/foundation-resources/logAnalyticsWorkspace.
   }
 }
 
+module definitions 'modules/policy-definitions/definitions.bicep' = {
+  scope: managementGroup() 
+  name: 'definitions'
+  params: {
+    
+  }
+}
+
 module initiatives 'modules/policy-initiatives/initiatives.bicep' = {
   scope: managementGroup() 
   name: 'initiatives'
+  definitions: [
+    initiatives
+  ]    
   params:{
     policySource: policySource
     managementGroupId: managementGroupId
+    customPolicyIDs: definitions.outputs.deployDiagnosticsSettingsToLogAnalytics
   }
 }
 

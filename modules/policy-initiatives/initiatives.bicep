@@ -9,6 +9,7 @@ targetScope = 'managementGroup'
 // PARAMETERS   
 param policySource string
 param managementGroupId string
+param customPolicyIDs array
 //param monitoringGovernancePolicies array
 /*
 param monitoringGovernanceBuiltInPolicies array = [
@@ -64,6 +65,42 @@ resource monitoringCaCDiagSetLAGovernanceInitiative 'Microsoft.Authorization/pol
         }
       }  
       // ACI
+      aciEffect: {
+        type: 'String'
+        metadata: {
+          displayName: 'Effect'
+          description: 'Enable or disable the execution of the policy'
+        }
+        allowedValues: [
+          'DeployIfNotExists'
+          'Disabled'
+        ]
+        defaultValue: 'DeployIfNotExists'        
+      }
+      aciMetricsEnabled: {
+        type: 'String'
+        metadata: {
+          displayName: 'Enable metrics'
+          description: 'Whether to enable metrics stream to the Log Analytics workspace - True or False'
+        }
+        allowedValues: [
+          'True'
+          'False'
+        ]
+        defaultValue: 'False'
+      }
+      aciLogsEnabled: {
+        type: 'String'
+        metadata: {
+          displayName: 'Enable logs'
+          description: 'Whether to enable logs stream to the Log Analytics workspace - True or False'
+        }
+        allowedValues: [
+          'True'
+          'False'
+        ]
+        defaultValue: 'True'
+      }       
       // ACR
       // ActivityLogs  
       activitylogsEffect: {
@@ -530,6 +567,24 @@ resource monitoringCaCDiagSetLAGovernanceInitiative 'Microsoft.Authorization/pol
  
     policyDefinitions: [
       // ACI
+      {
+        policyDefinitionReferenceId: 'Deploy Diagnostic Settings for Azure Container Instances to Log Analytics workspace (CloudBlox™)'
+        policyDefinitionId: '/providers/Microsoft.Management/managementgroups/${managementGroupId}/providers/Microsoft.Authorization/policyDefinitions/00a7c962-7e8d-4fbf-b286-c9cc3646a2b8'
+        parameters: {
+          logAnalytics: {
+            value: '[parameters(\'logAnalytics\')]'
+          }
+          effect: {
+            value: '[parameters(\'aciEffect\')]'
+          }
+          metricsEnabled: {
+            value: '[parameters(\'aciMetricsEnabled\')]' 
+          }
+          logsEnabled: {
+            value: '[parameters(\'aciLogsEnabled\')]'
+          }
+        }
+      }      
       // ACR
       // ActivityLogs
       {

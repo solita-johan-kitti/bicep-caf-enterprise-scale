@@ -1,0 +1,1019 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.4.613.9944",
+      "templateHash": "17188652830131220891"
+    }
+  },
+  "parameters": {
+    "managementGroupId": {
+      "type": "string",
+      "metadata": {
+        "description": "The management group to deploy (scope) to"
+      }
+    },
+    "resourceGroupNameLogs": {
+      "type": "string",
+      "defaultValue": "rg-logs-shared",
+      "metadata": {
+        "description": "Resource goupe used for logs"
+      }
+    },
+    "logAnalyticWorkspaceName": {
+      "type": "string",
+      "defaultValue": "la-logs-shared",
+      "metadata": {
+        "description": "The name of the log anaylytic workspace."
+      }
+    },
+    "policySource": {
+      "type": "string",
+      "defaultValue": "https://github.com/solita-johan-kitti/bicep-caf-enterprise-scale",
+      "metadata": {
+        "description": ""
+      }
+    },
+    "assignmentEnforcementMode": {
+      "type": "string",
+      "defaultValue": "Default",
+      "metadata": {
+        "description": ""
+      }
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "westeurope",
+      "metadata": {
+        "description": "Assignment Identity Location"
+      },
+      "allowedValues": [
+        "westeurope",
+        "northeurope"
+      ]
+    }
+  },
+  "functions": [],
+  "variables": {
+    "tags": {
+      "owner": "Johan Kitti",
+      "technical-owner": "Johan Kitti",
+      "costcenter": "1234",
+      "project-identifier": "M56879",
+      "environment": "shared",
+      "gdpr": "no",
+      "sla-level": "1"
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2019-10-01",
+      "name": "[parameters('resourceGroupNameLogs')]",
+      "subscriptionId": "1b6348ed-c10a-42cf-9aa9-6b81e637c337",
+      "location": "[deployment().location]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "resourceGroupName": {
+            "value": "[parameters('resourceGroupNameLogs')]"
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "tags": {
+            "value": "[variables('tags')]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.4.613.9944",
+              "templateHash": "4823171421183131984"
+            }
+          },
+          "parameters": {
+            "location": {
+              "type": "string",
+              "defaultValue": "westeurope"
+            },
+            "resourceGroupName": {
+              "type": "string"
+            },
+            "tags": {
+              "type": "object"
+            }
+          },
+          "functions": [],
+          "resources": [
+            {
+              "type": "Microsoft.Resources/resourceGroups",
+              "apiVersion": "2021-04-01",
+              "name": "[parameters('resourceGroupName')]",
+              "location": "[parameters('location')]",
+              "tags": "[parameters('tags')]"
+            }
+          ],
+          "outputs": {
+            "resourceGroupID": {
+              "type": "string",
+              "value": "[subscriptionResourceId('Microsoft.Resources/resourceGroups', parameters('resourceGroupName'))]"
+            },
+            "resourceGroupName": {
+              "type": "string",
+              "value": "[parameters('resourceGroupName')]"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2019-10-01",
+      "name": "[parameters('logAnalyticWorkspaceName')]",
+      "subscriptionId": "1b6348ed-c10a-42cf-9aa9-6b81e637c337",
+      "resourceGroup": "[parameters('resourceGroupNameLogs')]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "name": {
+            "value": "[parameters('logAnalyticWorkspaceName')]"
+          },
+          "sku": {
+            "value": "Free"
+          },
+          "tags": {
+            "value": "[variables('tags')]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.4.613.9944",
+              "templateHash": "16449898595661281239"
+            }
+          },
+          "parameters": {
+            "name": {
+              "type": "string",
+              "metadata": {
+                "description": "The name of the workspace."
+              }
+            },
+            "location": {
+              "type": "string",
+              "metadata": {
+                "description": "The geo-location where the resource lives"
+              }
+            },
+            "sku": {
+              "type": "string",
+              "defaultValue": "Free",
+              "metadata": {
+                "description": "The name of the SKU"
+              },
+              "allowedValues": [
+                "Free",
+                "Standard",
+                "Premium",
+                "PerNode",
+                "PerGB2018",
+                "Standalone",
+                "CapacityReservation"
+              ]
+            },
+            "tags": {
+              "type": "object",
+              "metadata": {
+                "description": "Tags to set"
+              }
+            }
+          },
+          "functions": [],
+          "resources": [
+            {
+              "type": "Microsoft.OperationalInsights/workspaces",
+              "apiVersion": "2020-10-01",
+              "name": "[parameters('name')]",
+              "location": "[parameters('location')]",
+              "properties": {
+                "sku": {
+                  "name": "[parameters('sku')]"
+                }
+              },
+              "tags": "[parameters('tags')]"
+            }
+          ],
+          "outputs": {
+            "logAnalyticsWorkspaceID": {
+              "type": "string",
+              "value": "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('name'))]"
+            },
+            "logAnalyticsWorkspaceName": {
+              "type": "string",
+              "value": "[parameters('name')]"
+            }
+          }
+        }
+      },
+      "dependsOn": [
+        "[subscriptionResourceId('1b6348ed-c10a-42cf-9aa9-6b81e637c337', 'Microsoft.Resources/deployments', parameters('resourceGroupNameLogs'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2019-10-01",
+      "name": "initiatives",
+      "location": "[deployment().location]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "policySource": {
+            "value": "[parameters('policySource')]"
+          },
+          "managementGroupId": {
+            "value": "[parameters('managementGroupId')]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.4.613.9944",
+              "templateHash": "10673696493619781426"
+            }
+          },
+          "parameters": {
+            "policySource": {
+              "type": "string"
+            },
+            "managementGroupId": {
+              "type": "string"
+            }
+          },
+          "functions": [],
+          "resources": [
+            {
+              "type": "Microsoft.Authorization/policySetDefinitions",
+              "apiVersion": "2020-09-01",
+              "name": "monitoringCaCDiagSetLAGovernanceInitiative",
+              "properties": {
+                "displayName": "Diagnostic Settings to Log Analytics Monitoring Compliance As Code (CaC) Governance",
+                "policyType": "Custom",
+                "description": "The CloudBlox™ Governance Diagnostic Settings to Log Analytics Monitoring Compliance As Code (CaC) Governance Initiative",
+                "metadata": {
+                  "version": "0.1.0",
+                  "category": "CloudBlox™ - Monitoring (CaC)",
+                  "source": "[parameters('policySource')]"
+                },
+                "parameters": {
+                  "logAnalytics": {
+                    "type": "String",
+                    "metadata": {
+                      "displayName": "Log Analytics workspace",
+                      "description": "Select Log Analytics workspace from dropdown list. If this workspace is outside of the scope of the assignment you must manually grant 'Log Analytics Contributor' permissions (or similar) to the policy assignment's principal ID.",
+                      "strongType": "omsWorkspace",
+                      "assignPermissions": true
+                    }
+                  },
+                  "activitylogsEffect": {
+                    "type": "String",
+                    "metadata": {
+                      "displayName": "Effect",
+                      "description": "Enable or disable the execution of the policy"
+                    },
+                    "allowedValues": [
+                      "DeployIfNotExists",
+                      "Disabled"
+                    ],
+                    "defaultValue": "DeployIfNotExists"
+                  },
+                  "activitylogsLogsEnabled": {
+                    "type": "String",
+                    "metadata": {
+                      "displayName": "Enable logs",
+                      "description": "Whether to enable logs stream to the Log Analytics workspace - True or False"
+                    },
+                    "allowedValues": [
+                      "True",
+                      "False"
+                    ],
+                    "defaultValue": "True"
+                  },
+                  "batchAccountEffect": {
+                    "type": "String",
+                    "metadata": {
+                      "displayName": "Effect",
+                      "description": "Enable or disable the execution of the policy"
+                    },
+                    "allowedValues": [
+                      "DeployIfNotExists",
+                      "Disabled"
+                    ],
+                    "defaultValue": "DeployIfNotExists"
+                  },
+                  "batchAccountMetricsEnabled": {
+                    "type": "String",
+                    "metadata": {
+                      "displayName": "Enable metrics",
+                      "description": "Whether to enable metrics stream to the Log Analytics workspace - True or False"
+                    },
+                    "allowedValues": [
+                      "True",
+                      "False"
+                    ],
+                    "defaultValue": "False"
+                  },
+                  "batchAccountLogsEnabled": {
+                    "type": "String",
+                    "metadata": {
+                      "displayName": "Enable logs",
+                      "description": "Whether to enable logs stream to the Log Analytics workspace - True or False"
+                    },
+                    "allowedValues": [
+                      "True",
+                      "False"
+                    ],
+                    "defaultValue": "True"
+                  },
+                  "datalakeAnalyticsEffect": {
+                    "type": "String",
+                    "metadata": {
+                      "displayName": "Effect",
+                      "description": "Enable or disable the execution of the policy"
+                    },
+                    "allowedValues": [
+                      "DeployIfNotExists",
+                      "Disabled"
+                    ],
+                    "defaultValue": "DeployIfNotExists"
+                  },
+                  "datalakeAnalyticsMetricsEnabled": {
+                    "type": "String",
+                    "metadata": {
+                      "displayName": "Enable metrics",
+                      "description": "Whether to enable metrics stream to the Log Analytics workspace - True or False"
+                    },
+                    "allowedValues": [
+                      "True",
+                      "False"
+                    ],
+                    "defaultValue": "False"
+                  },
+                  "datalakeAnalyticsLogsEnabled": {
+                    "type": "String",
+                    "metadata": {
+                      "displayName": "Enable logs",
+                      "description": "Whether to enable logs stream to the Log Analytics workspace - True or False"
+                    },
+                    "allowedValues": [
+                      "True",
+                      "False"
+                    ],
+                    "defaultValue": "True"
+                  },
+                  "datalakeStoreEffect": {
+                    "type": "String",
+                    "metadata": {
+                      "displayName": "Effect",
+                      "description": "Enable or disable the execution of the policy"
+                    },
+                    "allowedValues": [
+                      "DeployIfNotExists",
+                      "Disabled"
+                    ],
+                    "defaultValue": "DeployIfNotExists"
+                  },
+                  "datalakeStoreMetricsEnabled": {
+                    "type": "String",
+                    "metadata": {
+                      "displayName": "Enable metrics",
+                      "description": "Whether to enable metrics stream to the Log Analytics workspace - True or False"
+                    },
+                    "allowedValues": [
+                      "True",
+                      "False"
+                    ],
+                    "defaultValue": "False"
+                  },
+                  "datalakeStoreLogsEnabled": {
+                    "type": "String",
+                    "metadata": {
+                      "displayName": "Enable logs",
+                      "description": "Whether to enable logs stream to the Log Analytics workspace - True or False"
+                    },
+                    "allowedValues": [
+                      "True",
+                      "False"
+                    ],
+                    "defaultValue": "True"
+                  },
+                  "eventHubEffect": {
+                    "type": "String",
+                    "metadata": {
+                      "displayName": "Effect",
+                      "description": "Enable or disable the execution of the policy"
+                    },
+                    "allowedValues": [
+                      "DeployIfNotExists",
+                      "Disabled"
+                    ],
+                    "defaultValue": "DeployIfNotExists"
+                  },
+                  "eventHubMetricsEnabled": {
+                    "type": "String",
+                    "metadata": {
+                      "displayName": "Enable metrics",
+                      "description": "Whether to enable metrics stream to the Log Analytics workspace - True or False"
+                    },
+                    "allowedValues": [
+                      "True",
+                      "False"
+                    ],
+                    "defaultValue": "False"
+                  },
+                  "eventHubLogsEnabled": {
+                    "type": "String",
+                    "metadata": {
+                      "displayName": "Enable logs",
+                      "description": "Whether to enable logs stream to the Log Analytics workspace - True or False"
+                    },
+                    "allowedValues": [
+                      "True",
+                      "False"
+                    ],
+                    "defaultValue": "True"
+                  },
+                  "keyVaultEffect": {
+                    "type": "String",
+                    "metadata": {
+                      "displayName": "Effect",
+                      "description": "Enable or disable the execution of the policy"
+                    },
+                    "allowedValues": [
+                      "DeployIfNotExists",
+                      "Disabled"
+                    ],
+                    "defaultValue": "DeployIfNotExists"
+                  },
+                  "keyVaultMetricsEnabled": {
+                    "type": "String",
+                    "metadata": {
+                      "displayName": "Enable metrics",
+                      "description": "Whether to enable metrics stream to the Log Analytics workspace - True or False"
+                    },
+                    "allowedValues": [
+                      "True",
+                      "False"
+                    ],
+                    "defaultValue": "False"
+                  },
+                  "keyVaultLogsEnabled": {
+                    "type": "String",
+                    "metadata": {
+                      "displayName": "Enable logs",
+                      "description": "Whether to enable logs stream to the Log Analytics workspace - True or False"
+                    },
+                    "allowedValues": [
+                      "True",
+                      "False"
+                    ],
+                    "defaultValue": "True"
+                  },
+                  "logicAppsWfEffect": {
+                    "type": "String",
+                    "metadata": {
+                      "displayName": "Effect",
+                      "description": "Enable or disable the execution of the policy"
+                    },
+                    "allowedValues": [
+                      "DeployIfNotExists",
+                      "Disabled"
+                    ],
+                    "defaultValue": "DeployIfNotExists"
+                  },
+                  "logicAppsWfMetricsEnabled": {
+                    "type": "String",
+                    "metadata": {
+                      "displayName": "Enable metrics",
+                      "description": "Whether to enable metrics stream to the Log Analytics workspace - True or False"
+                    },
+                    "allowedValues": [
+                      "True",
+                      "False"
+                    ],
+                    "defaultValue": "False"
+                  },
+                  "logicAppsWfLogsEnabled": {
+                    "type": "String",
+                    "metadata": {
+                      "displayName": "Enable logs",
+                      "description": "Whether to enable logs stream to the Log Analytics workspace - True or False"
+                    },
+                    "allowedValues": [
+                      "True",
+                      "False"
+                    ],
+                    "defaultValue": "True"
+                  },
+                  "recoveryVaultTagName": {
+                    "type": "String",
+                    "metadata": {
+                      "displayName": "Exclusion Tag Name",
+                      "description": "Name of the tag to use for excluding vaults from this policy. This should be used along with the Exclusion Tag Value parameter."
+                    },
+                    "defaultValue": ""
+                  },
+                  "recoveryVaultTagValue": {
+                    "type": "String",
+                    "metadata": {
+                      "displayName": "Exclusion Tag Value",
+                      "description": "Value of the tag to use for excluding vaults from this policy. This should be used along with the Exclusion Tag Name parameter."
+                    },
+                    "defaultValue": ""
+                  },
+                  "searchServicesEffect": {
+                    "type": "String",
+                    "metadata": {
+                      "displayName": "Effect",
+                      "description": "Enable or disable the execution of the policy"
+                    },
+                    "allowedValues": [
+                      "DeployIfNotExists",
+                      "Disabled"
+                    ],
+                    "defaultValue": "DeployIfNotExists"
+                  },
+                  "searchServicesMetricsEnabled": {
+                    "type": "String",
+                    "metadata": {
+                      "displayName": "Enable metrics",
+                      "description": "Whether to enable metrics stream to the Log Analytics workspace - True or False"
+                    },
+                    "allowedValues": [
+                      "True",
+                      "False"
+                    ],
+                    "defaultValue": "False"
+                  },
+                  "searchServicesLogsEnabled": {
+                    "type": "String",
+                    "metadata": {
+                      "displayName": "Enable logs",
+                      "description": "Whether to enable logs stream to the Log Analytics workspace - True or False"
+                    },
+                    "allowedValues": [
+                      "True",
+                      "False"
+                    ],
+                    "defaultValue": "True"
+                  },
+                  "serviceBusEffect": {
+                    "type": "String",
+                    "metadata": {
+                      "displayName": "Effect",
+                      "description": "Enable or disable the execution of the policy"
+                    },
+                    "allowedValues": [
+                      "DeployIfNotExists",
+                      "Disabled"
+                    ],
+                    "defaultValue": "DeployIfNotExists"
+                  },
+                  "serviceBusMetricsEnabled": {
+                    "type": "String",
+                    "metadata": {
+                      "displayName": "Enable metrics",
+                      "description": "Whether to enable metrics stream to the Log Analytics workspace - True or False"
+                    },
+                    "allowedValues": [
+                      "True",
+                      "False"
+                    ],
+                    "defaultValue": "False"
+                  },
+                  "serviceBusLogsEnabled": {
+                    "type": "String",
+                    "metadata": {
+                      "displayName": "Enable logs",
+                      "description": "Whether to enable logs stream to the Log Analytics workspace - True or False"
+                    },
+                    "allowedValues": [
+                      "True",
+                      "False"
+                    ],
+                    "defaultValue": "True"
+                  },
+                  "streamAnalyticsEffect": {
+                    "type": "String",
+                    "metadata": {
+                      "displayName": "Effect",
+                      "description": "Enable or disable the execution of the policy"
+                    },
+                    "allowedValues": [
+                      "DeployIfNotExists",
+                      "Disabled"
+                    ],
+                    "defaultValue": "DeployIfNotExists"
+                  },
+                  "streamAnalyticsMetricsEnabled": {
+                    "type": "String",
+                    "metadata": {
+                      "displayName": "Enable metrics",
+                      "description": "Whether to enable metrics stream to the Log Analytics workspace - True or False"
+                    },
+                    "allowedValues": [
+                      "True",
+                      "False"
+                    ],
+                    "defaultValue": "False"
+                  },
+                  "streamAnalyticsLogsEnabled": {
+                    "type": "String",
+                    "metadata": {
+                      "displayName": "Enable logs",
+                      "description": "Whether to enable logs stream to the Log Analytics workspace - True or False"
+                    },
+                    "allowedValues": [
+                      "True",
+                      "False"
+                    ],
+                    "defaultValue": "True"
+                  }
+                },
+                "policyDefinitions": [
+                  {
+                    "policyDefinitionReferenceId": "Configure Azure Activity logs to stream to specified Log Analytics workspace",
+                    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/2465583e-4e78-4c15-b6be-a36cbc7c8b0f",
+                    "parameters": {
+                      "logAnalytics": {
+                        "value": "[[parameters('logAnalytics')]"
+                      },
+                      "effect": {
+                        "value": "[[parameters('activitylogsEffect')]"
+                      },
+                      "logsEnabled": {
+                        "value": "[[parameters('activitylogsLogsEnabled')]"
+                      }
+                    }
+                  },
+                  {
+                    "policyDefinitionReferenceId": "Deploy Diagnostic Settings for Batch Account to Log Analytics workspace",
+                    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/c84e5349-db6d-4769-805e-e14037dab9b5",
+                    "parameters": {
+                      "logAnalytics": {
+                        "value": "[[parameters('logAnalytics')]"
+                      },
+                      "effect": {
+                        "value": "[[parameters('batchAccountEffect')]"
+                      },
+                      "metricsEnabled": {
+                        "value": "[[parameters('batchAccountMetricsEnabled')]"
+                      },
+                      "logsEnabled": {
+                        "value": "[[parameters('batchAccountLogsEnabled')]"
+                      }
+                    }
+                  },
+                  {
+                    "policyDefinitionReferenceId": "Deploy Diagnostic Settings for Data Lake Analytics to Log Analytics workspace",
+                    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/d56a5a7c-72d7-42bc-8ceb-3baf4c0eae03",
+                    "parameters": {
+                      "logAnalytics": {
+                        "value": "[[parameters('logAnalytics')]"
+                      },
+                      "effect": {
+                        "value": "[[parameters('datalakeAnalyticsEffect')]"
+                      },
+                      "metricsEnabled": {
+                        "value": "[[parameters('datalakeAnalyticsMetricsEnabled')]"
+                      },
+                      "logsEnabled": {
+                        "value": "[[parameters('datalakeAnalyticsLogsEnabled')]"
+                      }
+                    }
+                  },
+                  {
+                    "policyDefinitionReferenceId": "Deploy Diagnostic Settings for Data Lake Storage Gen1 to Log Analytics workspace",
+                    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/25763a0a-5783-4f14-969e-79d4933eb74b",
+                    "parameters": {
+                      "logAnalytics": {
+                        "value": "[[parameters('logAnalytics')]"
+                      },
+                      "effect": {
+                        "value": "[[parameters('datalakeStoreEffect')]"
+                      },
+                      "metricsEnabled": {
+                        "value": "[[parameters('datalakeStoreMetricsEnabled')]"
+                      },
+                      "logsEnabled": {
+                        "value": "[[parameters('datalakeStoreLogsEnabled')]"
+                      }
+                    }
+                  },
+                  {
+                    "policyDefinitionReferenceId": "Deploy Diagnostic Settings for Event Hub to Log Analytics workspace",
+                    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/1f6e93e8-6b31-41b1-83f6-36e449a42579",
+                    "parameters": {
+                      "logAnalytics": {
+                        "value": "[[parameters('logAnalytics')]"
+                      },
+                      "effect": {
+                        "value": "[[parameters('eventHubEffect')]"
+                      },
+                      "metricsEnabled": {
+                        "value": "[[parameters('eventHubMetricsEnabled')]"
+                      },
+                      "logsEnabled": {
+                        "value": "[[parameters('eventHubLogsEnabled')]"
+                      }
+                    }
+                  },
+                  {
+                    "policyDefinitionReferenceId": "Deploy Diagnostic Settings for Key Vault to Log Analytics workspace",
+                    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/bef3f64c-5290-43b7-85b0-9b254eef4c47",
+                    "parameters": {
+                      "logAnalytics": {
+                        "value": "[[parameters('logAnalytics')]"
+                      },
+                      "effect": {
+                        "value": "[[parameters('keyVaultEffect')]"
+                      },
+                      "metricsEnabled": {
+                        "value": "[[parameters('keyVaultMetricsEnabled')]"
+                      },
+                      "logsEnabled": {
+                        "value": "[[parameters('keyVaultLogsEnabled')]"
+                      }
+                    }
+                  },
+                  {
+                    "policyDefinitionReferenceId": "Deploy Diagnostic Settings for Logic Apps to Log Analytics workspace",
+                    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/b889a06c-ec72-4b03-910a-cb169ee18721",
+                    "parameters": {
+                      "logAnalytics": {
+                        "value": "[[parameters('logAnalytics')]"
+                      },
+                      "effect": {
+                        "value": "[[parameters('logicAppsWfEffect')]"
+                      },
+                      "metricsEnabled": {
+                        "value": "[[parameters('logicAppsWfMetricsEnabled')]"
+                      },
+                      "logsEnabled": {
+                        "value": "[[parameters('logicAppsWfLogsEnabled')]"
+                      }
+                    }
+                  },
+                  {
+                    "policyDefinitionReferenceId": "Deploy Diagnostic Settings for Recovery Services Vault to Log Analytics workspace for resource specific categories.",
+                    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/c717fb0c-d118-4c43-ab3d-ece30ac81fb3",
+                    "parameters": {
+                      "logAnalytics": {
+                        "value": "[[parameters('logAnalytics')]"
+                      },
+                      "tagName": {
+                        "value": "[[parameters('recoveryVaultTagName')]"
+                      },
+                      "tagValue": {
+                        "value": "[[parameters('recoveryVaultTagValue')]"
+                      }
+                    }
+                  },
+                  {
+                    "policyDefinitionReferenceId": "Deploy Diagnostic Settings for Search Services to Log Analytics workspace",
+                    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/08ba64b8-738f-4918-9686-730d2ed79c7d",
+                    "parameters": {
+                      "logAnalytics": {
+                        "value": "[[parameters('logAnalytics')]"
+                      },
+                      "effect": {
+                        "value": "[[parameters('searchServicesEffect')]"
+                      },
+                      "metricsEnabled": {
+                        "value": "[[parameters('searchServicesMetricsEnabled')]"
+                      },
+                      "logsEnabled": {
+                        "value": "[[parameters('searchServicesLogsEnabled')]"
+                      }
+                    }
+                  },
+                  {
+                    "policyDefinitionReferenceId": "Deploy Diagnostic Settings for Service Bus to Log Analytics workspace",
+                    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/04d53d87-841c-4f23-8a5b-21564380b55e",
+                    "parameters": {
+                      "logAnalytics": {
+                        "value": "[[parameters('logAnalytics')]"
+                      },
+                      "effect": {
+                        "value": "[[parameters('serviceBusEffect')]"
+                      },
+                      "metricsEnabled": {
+                        "value": "[[parameters('serviceBusMetricsEnabled')]"
+                      },
+                      "logsEnabled": {
+                        "value": "[[parameters('serviceBusLogsEnabled')]"
+                      }
+                    }
+                  },
+                  {
+                    "policyDefinitionReferenceId": "Deploy Diagnostic Settings for Stream Analytics to Log Analytics workspace",
+                    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/237e0f7e-b0e8-4ec4-ad46-8c12cb66d673",
+                    "parameters": {
+                      "logAnalytics": {
+                        "value": "[[parameters('logAnalytics')]"
+                      },
+                      "effect": {
+                        "value": "[[parameters('streamAnalyticsEffect')]"
+                      },
+                      "metricsEnabled": {
+                        "value": "[[parameters('streamAnalyticsMetricsEnabled')]"
+                      },
+                      "logsEnabled": {
+                        "value": "[[parameters('streamAnalyticsLogsEnabled')]"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "outputs": {
+            "initiativeIDs": {
+              "type": "array",
+              "value": [
+                "[format('{0}{1}', tenantResourceId('Microsoft.Management/managementGroups', parameters('managementGroupId')), tenantResourceId('Microsoft.Authorization/policySetDefinitions', 'monitoringCaCDiagSetLAGovernanceInitiative'))]"
+              ]
+            },
+            "initiativeNames": {
+              "type": "array",
+              "value": [
+                "monitoringCaCDiagSetLAGovernanceInitiative"
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2019-10-01",
+      "name": "assignments",
+      "location": "[deployment().location]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "managementGroupID": {
+            "value": "[parameters('managementGroupId')]"
+          },
+          "logAnalyticsWorkspace": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', '1b6348ed-c10a-42cf-9aa9-6b81e637c337', parameters('resourceGroupNameLogs')), 'Microsoft.Resources/deployments', parameters('logAnalyticWorkspaceName')), '2019-10-01').outputs.logAnalyticsWorkspaceID.value]"
+          },
+          "policySource": {
+            "value": "[parameters('policySource')]"
+          },
+          "assignmentIdentityLocation": {
+            "value": "[parameters('location')]"
+          },
+          "assignmentEnforcementMode": {
+            "value": "[parameters('assignmentEnforcementMode')]"
+          },
+          "monitoringCaCDiagSetLAGovernanceInitiativId": {
+            "value": "[reference(format('Microsoft.Resources/deployments/{0}', 'initiatives'), '2019-10-01').outputs.initiativeIDs.value[0]]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.4.613.9944",
+              "templateHash": "17898005476715678361"
+            }
+          },
+          "parameters": {
+            "policySource": {
+              "type": "string"
+            },
+            "assignmentIdentityLocation": {
+              "type": "string"
+            },
+            "assignmentEnforcementMode": {
+              "type": "string"
+            },
+            "monitoringCaCDiagSetLAGovernanceInitiativId": {
+              "type": "string"
+            },
+            "managementGroupID": {
+              "type": "string"
+            },
+            "logAnalyticsWorkspace": {
+              "type": "string",
+              "metadata": {
+                "description": "The name of the log anaylytic workspace to send diagnostic logs to."
+              }
+            }
+          },
+          "functions": [],
+          "resources": [
+            {
+              "type": "Microsoft.Authorization/policyAssignments",
+              "apiVersion": "2020-09-01",
+              "name": "DiagSetToLaCaCGov",
+              "location": "[parameters('assignmentIdentityLocation')]",
+              "identity": {
+                "type": "SystemAssigned"
+              },
+              "properties": {
+                "displayName": "Diagnostic Settings to Log Analytics Monitoring Compliance As Code (CaC) Governance (CloudBlox™)",
+                "description": "The CloudBlox™ Governance Diagnostic Settings to Log Analytics Monitoring Compliance As Code (CaC) Governance Assignment",
+                "enforcementMode": "[parameters('assignmentEnforcementMode')]",
+                "metadata": {
+                  "source": "[parameters('policySource')]",
+                  "version": "0.1.0"
+                },
+                "policyDefinitionId": "[parameters('monitoringCaCDiagSetLAGovernanceInitiativId')]",
+                "parameters": {
+                  "logAnalytics": {
+                    "value": "[parameters('logAnalyticsWorkspace')]"
+                  }
+                }
+              }
+            },
+            {
+              "type": "Microsoft.Authorization/roleAssignments",
+              "apiVersion": "2018-01-01-preview",
+              "name": "[guid('DiagSetToLaCaCGov', 'Microsoft.Authorization/policyAssignments', parameters('managementGroupID'))]",
+              "properties": {
+                "principalId": "[reference(format('Microsoft.Authorization/policyAssignments/{0}', 'DiagSetToLaCaCGov'), '2020-09-01', 'full').identity.principalId]",
+                "roleDefinitionId": "/providers/microsoft.authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635"
+              },
+              "dependsOn": [
+                "[format('Microsoft.Authorization/policyAssignments/{0}', 'DiagSetToLaCaCGov')]"
+              ]
+            }
+          ],
+          "outputs": {
+            "assignmentNames": {
+              "type": "array",
+              "value": [
+                "DiagSetToLaCaCGov"
+              ]
+            },
+            "roleAssignmentIDs": {
+              "type": "array",
+              "value": [
+                "[format('Microsoft.Authorization/policyAssignments/{0}', 'DiagSetToLaCaCGov')]"
+              ]
+            },
+            "assignmentIDs": {
+              "type": "array",
+              "value": [
+                "[format('Microsoft.Authorization/policyAssignments/{0}', 'DiagSetToLaCaCGov')]"
+              ]
+            }
+          }
+        }
+      },
+      "dependsOn": [
+        "[format('Microsoft.Resources/deployments/{0}', 'initiatives')]",
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', '1b6348ed-c10a-42cf-9aa9-6b81e637c337', parameters('resourceGroupNameLogs')), 'Microsoft.Resources/deployments', parameters('logAnalyticWorkspaceName'))]"
+      ]
+    }
+  ],
+  "outputs": {
+    "resourceNamesForCleanup": {
+      "type": "array",
+      "value": [
+        "[reference(format('Microsoft.Resources/deployments/{0}', 'initiatives'), '2019-10-01').outputs.initiativeNames.value]",
+        "[reference(format('Microsoft.Resources/deployments/{0}', 'assignments'), '2019-10-01').outputs.assignmentNames.value]"
+      ]
+    }
+  }
+}
