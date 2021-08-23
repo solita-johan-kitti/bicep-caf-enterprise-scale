@@ -569,7 +569,7 @@ resource monitoringCaCDiagSetLAGovernanceInitiative 'Microsoft.Authorization/pol
       // ACI
       {
         policyDefinitionReferenceId: 'Deploy Diagnostic Settings for Azure Container Instances to Log Analytics workspace (CloudBlox™)'
-        policyDefinitionId: '/providers/Microsoft.Management/managementgroups/${managementGroupId}/providers/Microsoft.Authorization/policyDefinitions/00a7c962-7e8d-4fbf-b286-c9cc3646a2b8'
+        policyDefinitionId: '/providers/Microsoft.Management/managementgroups/${managementGroupId}/providers/Microsoft.Authorization/policyDefinitions/6eb49361-4964-401a-b0bb-fa7f77b30baf'
         parameters: {
           logAnalytics: {
             value: '[parameters(\'logAnalytics\')]'
