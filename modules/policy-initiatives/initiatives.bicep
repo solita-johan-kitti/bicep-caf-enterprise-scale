@@ -673,7 +673,7 @@ resource monitoringCaCGovernance 'Microsoft.Authorization/policySetDefinitions@2
       // SearchService
       {
         policyDefinitionReferenceId: 'Deploy Diagnostic Settings for Search Services to Log Analytics workspace'
-        policyDefinitionId: '/providers/Microsoft.Authorization/policyDefinitions/04d53d87-841c-4f23-8a5b-21564380b55e'
+        policyDefinitionId: '/providers/Microsoft.Authorization/policyDefinitions/08ba64b8-738f-4918-9686-730d2ed79c7d'
         parameters: {
           logAnalytics: {
             value: '[parameters(\'logAnalytics\')]'
