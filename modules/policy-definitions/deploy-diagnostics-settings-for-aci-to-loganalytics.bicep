@@ -40,49 +40,37 @@ resource policy 'Microsoft.Authorization/policyDefinitions@2020-09-01' = {
         }
       }
       effect: {
-          type: 'String'
-          metadata: {
-            displayName: 'Effect'
-            description: 'Enable or disable the execution of the policy'
-          }
-          allowedValues: [
-            'DeployIfNotExists'
-            'Disabled'
-          ]
-          defaultValue: 'DeployIfNotExists'
+        type: 'String'
+        metadata: {
+          displayName: 'Effect'
+          description: 'Enable or disable the execution of the policy'
         }
-        profileName: {
-          type: 'String'
-          metadata: {
-            displayName: 'Profile name'
-            description: 'The diagnostic settings profile name'
-          }
-          defaultValue: 'setbypolicy_logAnalytics'
-        }      
-        metricsEnabled: {
-          type: 'String'
-          metadata: {
-            displayName: 'Enable metrics'
-            description: 'Whether to enable metrics stream to the Log Analytics workspace - True or False'
-          }
-          allowedValues: [
-            'True'
-            'False'
-          ]
-          defaultValue: 'False'
+        allowedValues: [
+          'DeployIfNotExists'
+          'Disabled'
+        ]
+        defaultValue: 'DeployIfNotExists'
+      }
+      profileName: {
+        type: 'String'
+        metadata: {
+          displayName: 'Profile name'
+          description: 'The diagnostic settings profile name'
         }
-        logsEnabled: {
-          type: 'String'
-          metadata: {
-            displayName: 'Enable logs'
-            description: 'Whether to enable logs stream to the Log Analytics workspace - True or False'
-          }
-          allowedValues: [
-            'True'
-            'False'
-          ]
-          defaultValue: 'True'
-        }      
+        defaultValue: 'setbypolicy_logAnalytics'
+      }
+      metricsEnabled: {
+        type: 'String'
+        metadata: {
+          displayName: 'Enable metrics'
+          description: 'Whether to enable metrics stream to the Log Analytics workspace - True or False'
+        }
+        allowedValues: [
+          'True'
+          'False'
+        ]
+        defaultValue: 'False'
+      }
     }
     policyRule: {
       if: {
@@ -99,10 +87,6 @@ resource policy 'Microsoft.Authorization/policyDefinitions@2020-09-01' = {
               {
                 field: 'Microsoft.Insights/diagnosticSettings/metrics.enabled'
                 equals: '[parameters(\'metricsEnabled\')]'
-              }
-              {
-                field: 'Microsoft.Insights/diagnosticSettings/workspaceId'
-                equals: '[parameters(\'logAnalytics\')]'
               }
             ]
           }
@@ -126,9 +110,6 @@ resource policy 'Microsoft.Authorization/policyDefinitions@2020-09-01' = {
                     type: 'string'
                   }
                   metricsEnabled: {
-                    type: 'string'
-                  }
-                  logsEnabled: {
                     type: 'string'
                   }
                   profileName: {
@@ -173,9 +154,6 @@ resource policy 'Microsoft.Authorization/policyDefinitions@2020-09-01' = {
                 }
                 metricsEnabled: {
                   value: '[parameters(\'metricsEnabled\')]'
-                }
-                logsEnabled: {
-                  value: '[parameters(\'logsEnabled\')]'
                 }
                 profileName: {
                   value: '[parameters(\'profileName\')]'

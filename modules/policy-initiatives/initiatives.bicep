@@ -89,7 +89,33 @@ resource monitoringCaCDiagSetLAGovernanceInitiative 'Microsoft.Authorization/pol
         ]
         defaultValue: 'False'
       }
-      aciLogsEnabled: {
+    
+      // ACR
+      acrEffect: {
+        type: 'String'
+        metadata: {
+          displayName: 'Effect'
+          description: 'Enable or disable the execution of the policy'
+        }
+        allowedValues: [
+          'DeployIfNotExists'
+          'Disabled'
+        ]
+        defaultValue: 'DeployIfNotExists'        
+      }
+      acrMetricsEnabled: {
+        type: 'String'
+        metadata: {
+          displayName: 'Enable metrics'
+          description: 'Whether to enable metrics stream to the Log Analytics workspace - True or False'
+        }
+        allowedValues: [
+          'True'
+          'False'
+        ]
+        defaultValue: 'False'
+      }
+      acrLogsEnabled: {
         type: 'String'
         metadata: {
           displayName: 'Enable logs'
@@ -100,8 +126,7 @@ resource monitoringCaCDiagSetLAGovernanceInitiative 'Microsoft.Authorization/pol
           'False'
         ]
         defaultValue: 'True'
-      }       
-      // ACR
+      }        
       // ActivityLogs  
       activitylogsEffect: {
         type: 'String'
@@ -580,12 +605,27 @@ resource monitoringCaCDiagSetLAGovernanceInitiative 'Microsoft.Authorization/pol
           metricsEnabled: {
             value: '[parameters(\'aciMetricsEnabled\')]' 
           }
-          logsEnabled: {
-            value: '[parameters(\'aciLogsEnabled\')]'
-          }
         }
       }      
       // ACR
+      {
+        policyDefinitionReferenceId: 'Deploy Diagnostic Settings for Azure Container Registry to Log Analytics workspace (CloudBlox™)'
+        policyDefinitionId: '/providers/Microsoft.Management/managementgroups/${managementGroupId}/providers/Microsoft.Authorization/policyDefinitions/38cc0630-c239-41df-a8ee-ae4cb21bfbc3'
+        parameters: {
+          logAnalytics: {
+            value: '[parameters(\'logAnalytics\')]'
+          }
+          effect: {
+            value: '[parameters(\'acrEffect\')]'
+          }
+          metricsEnabled: {
+            value: '[parameters(\'acrMetricsEnabled\')]' 
+          }
+          logsEnabled: {
+            value: '[parameters(\'acrLogsEnabled\')]'
+          }
+        }
+      }        
       // ActivityLogs
       {
         policyDefinitionReferenceId: 'Configure Azure Activity logs to stream to specified Log Analytics workspace'
