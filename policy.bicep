@@ -79,8 +79,8 @@ module definitions 'modules/policy-definitions/definitions.bicep' = {
 module initiatives 'modules/policy-initiatives/initiatives.bicep' = {
   scope: managementGroup() 
   name: 'initiatives'
-  definitions: [
-    initiatives
+  dependsOn: [
+    definitions
   ]    
   params:{
     policySource: policySource

@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.4.613.9944",
-      "templateHash": "17188652830131220891"
+      "templateHash": "1701690755458619155"
     }
   },
   "parameters": {
@@ -240,6 +240,272 @@
     {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2019-10-01",
+      "name": "definitions",
+      "location": "[deployment().location]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {},
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.4.613.9944",
+              "templateHash": "13781818165410626334"
+            }
+          },
+          "functions": [],
+          "resources": [
+            {
+              "type": "Microsoft.Resources/deployments",
+              "apiVersion": "2019-10-01",
+              "name": "deployDiagnosticsSettingsForACIToLogAnalytics",
+              "location": "[deployment().location]",
+              "properties": {
+                "expressionEvaluationOptions": {
+                  "scope": "inner"
+                },
+                "mode": "Incremental",
+                "template": {
+                  "$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
+                  "contentVersion": "1.0.0.0",
+                  "metadata": {
+                    "_generator": {
+                      "name": "bicep",
+                      "version": "0.4.613.9944",
+                      "templateHash": "16814844654144804845"
+                    }
+                  },
+                  "parameters": {
+                    "policySource": {
+                      "type": "string",
+                      "defaultValue": "Bicep"
+                    }
+                  },
+                  "functions": [],
+                  "variables": {
+                    "guid": "6eb49361-4964-401a-b0bb-fa7f77b30baf",
+                    "displayName": "Deploy Diagnostic Settings for Azure Container Instances to Log Analytics workspace (CloudBlox™)",
+                    "description": "Deploys the diagnostic settings for Azure Container Instances to stream to a regional Log Analytics workspace when any Azure Container Instances which is missing these diagnostic settings is created or updated.",
+                    "policyCategory": "CloudBlox™ - Monitoring (CaC)",
+                    "version": "0.1.0",
+                    "resourceType": "Microsoft.ContainerInstance/containerGroups"
+                  },
+                  "resources": [
+                    {
+                      "type": "Microsoft.Authorization/policyDefinitions",
+                      "apiVersion": "2020-09-01",
+                      "name": "[variables('guid')]",
+                      "properties": {
+                        "displayName": "[variables('displayName')]",
+                        "policyType": "Custom",
+                        "mode": "Indexed",
+                        "description": "[variables('description')]",
+                        "metadata": {
+                          "version": "[variables('version')]",
+                          "category": "[variables('policyCategory')]",
+                          "source": "[parameters('policySource')]"
+                        },
+                        "parameters": {
+                          "logAnalytics": {
+                            "type": "String",
+                            "metadata": {
+                              "displayName": "Log Analytics workspace",
+                              "description": "Select Log Analytics workspace from dropdown list. If this workspace is outside of the scope of the assignment you must manually grant 'Log Analytics Contributor' permissions (or similar) to the policy assignment's principal ID.",
+                              "strongType": "omsWorkspace",
+                              "assignPermissions": true
+                            }
+                          },
+                          "effect": {
+                            "type": "String",
+                            "metadata": {
+                              "displayName": "Effect",
+                              "description": "Enable or disable the execution of the policy"
+                            },
+                            "allowedValues": [
+                              "DeployIfNotExists",
+                              "Disabled"
+                            ],
+                            "defaultValue": "DeployIfNotExists"
+                          },
+                          "profileName": {
+                            "type": "String",
+                            "metadata": {
+                              "displayName": "Profile name",
+                              "description": "The diagnostic settings profile name"
+                            },
+                            "defaultValue": "setbypolicy_logAnalytics"
+                          },
+                          "metricsEnabled": {
+                            "type": "String",
+                            "metadata": {
+                              "displayName": "Enable metrics",
+                              "description": "Whether to enable metrics stream to the Log Analytics workspace - True or False"
+                            },
+                            "allowedValues": [
+                              "True",
+                              "False"
+                            ],
+                            "defaultValue": "False"
+                          },
+                          "logsEnabled": {
+                            "type": "String",
+                            "metadata": {
+                              "displayName": "Enable logs",
+                              "description": "Whether to enable logs stream to the Log Analytics workspace - True or False"
+                            },
+                            "allowedValues": [
+                              "True",
+                              "False"
+                            ],
+                            "defaultValue": "True"
+                          }
+                        },
+                        "policyRule": {
+                          "if": {
+                            "field": "type",
+                            "equals": "[variables('resourceType')]"
+                          },
+                          "then": {
+                            "effect": "[[parameters('effect')]",
+                            "details": {
+                              "type": "Microsoft.Insights/diagnosticSettings",
+                              "name": "[[parameters('profileName')]",
+                              "existenceCondition": {
+                                "allOf": [
+                                  {
+                                    "field": "Microsoft.Insights/diagnosticSettings/metrics.enabled",
+                                    "equals": "[[parameters('metricsEnabled')]"
+                                  },
+                                  {
+                                    "field": "Microsoft.Insights/diagnosticSettings/workspaceId",
+                                    "equals": "[[parameters('logAnalytics')]"
+                                  }
+                                ]
+                              },
+                              "roleDefinitionIds": [
+                                "/providers/microsoft.authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+                              ],
+                              "deployment": {
+                                "properties": {
+                                  "mode": "incremental",
+                                  "template": {
+                                    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                                    "contentVersion": "1.0.0.0",
+                                    "parameters": {
+                                      "resourceName": {
+                                        "type": "string"
+                                      },
+                                      "location": {
+                                        "type": "string"
+                                      },
+                                      "logAnalytics": {
+                                        "type": "string"
+                                      },
+                                      "metricsEnabled": {
+                                        "type": "string"
+                                      },
+                                      "logsEnabled": {
+                                        "type": "string"
+                                      },
+                                      "profileName": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "variables": {},
+                                    "resources": [
+                                      {
+                                        "type": "[format('{0}/providers/diagnosticSettings', variables('resourceType'))]",
+                                        "apiVersion": "2017-05-01-preview",
+                                        "name": "[[concat(parameters('resourceName'), '/', 'Microsoft.Insights/', parameters('profileName'))]",
+                                        "location": "[[parameters('location')]",
+                                        "dependsOn": [],
+                                        "properties": {
+                                          "workspaceId": "[[parameters('logAnalytics')]",
+                                          "metrics": [
+                                            {
+                                              "category": "AllMetrics",
+                                              "enabled": "[[parameters('metricsEnabled')]",
+                                              "retentionPolicy": {
+                                                "enabled": false,
+                                                "days": 0
+                                              },
+                                              "timeGrain": null
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    ],
+                                    "outputs": {}
+                                  },
+                                  "parameters": {
+                                    "location": {
+                                      "value": "[[field('location')]"
+                                    },
+                                    "resourceName": {
+                                      "value": "[[field('name')]"
+                                    },
+                                    "logAnalytics": {
+                                      "value": "[[parameters('logAnalytics')]"
+                                    },
+                                    "metricsEnabled": {
+                                      "value": "[[parameters('metricsEnabled')]"
+                                    },
+                                    "logsEnabled": {
+                                      "value": "[[parameters('logsEnabled')]"
+                                    },
+                                    "profileName": {
+                                      "value": "[[parameters('profileName')]"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "outputs": {
+                    "policyID": {
+                      "type": "string",
+                      "value": "[format('Microsoft.Authorization/policyDefinitions/{0}', variables('guid'))]"
+                    },
+                    "policyName": {
+                      "type": "string",
+                      "value": "[variables('guid')]"
+                    },
+                    "policyDisplayName": {
+                      "type": "string",
+                      "value": "[reference(format('Microsoft.Authorization/policyDefinitions/{0}', variables('guid'))).displayName]"
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "outputs": {
+            "deployDiagnosticsSettingsToLogAnalytics": {
+              "type": "array",
+              "value": [
+                {
+                  "id": "[reference(format('Microsoft.Resources/deployments/{0}', 'deployDiagnosticsSettingsForACIToLogAnalytics'), '2019-10-01').outputs.policyID.value]",
+                  "name": "[reference(format('Microsoft.Resources/deployments/{0}', 'deployDiagnosticsSettingsForACIToLogAnalytics'), '2019-10-01').outputs.policyName.value]",
+                  "policyDisplayName": "[reference(format('Microsoft.Resources/deployments/{0}', 'deployDiagnosticsSettingsForACIToLogAnalytics'), '2019-10-01').outputs.policyDisplayName.value]"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2019-10-01",
       "name": "initiatives",
       "location": "[deployment().location]",
       "properties": {
@@ -253,6 +519,9 @@
           },
           "managementGroupId": {
             "value": "[parameters('managementGroupId')]"
+          },
+          "customPolicyIDs": {
+            "value": "[reference(format('Microsoft.Resources/deployments/{0}', 'definitions'), '2019-10-01').outputs.deployDiagnosticsSettingsToLogAnalytics.value]"
           }
         },
         "template": {
@@ -262,7 +531,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.4.613.9944",
-              "templateHash": "10673696493619781426"
+              "templateHash": "13413901262114888524"
             }
           },
           "parameters": {
@@ -271,6 +540,9 @@
             },
             "managementGroupId": {
               "type": "string"
+            },
+            "customPolicyIDs": {
+              "type": "array"
             }
           },
           "functions": [],
@@ -297,6 +569,42 @@
                       "strongType": "omsWorkspace",
                       "assignPermissions": true
                     }
+                  },
+                  "aciEffect": {
+                    "type": "String",
+                    "metadata": {
+                      "displayName": "Effect",
+                      "description": "Enable or disable the execution of the policy"
+                    },
+                    "allowedValues": [
+                      "DeployIfNotExists",
+                      "Disabled"
+                    ],
+                    "defaultValue": "DeployIfNotExists"
+                  },
+                  "aciMetricsEnabled": {
+                    "type": "String",
+                    "metadata": {
+                      "displayName": "Enable metrics",
+                      "description": "Whether to enable metrics stream to the Log Analytics workspace - True or False"
+                    },
+                    "allowedValues": [
+                      "True",
+                      "False"
+                    ],
+                    "defaultValue": "False"
+                  },
+                  "aciLogsEnabled": {
+                    "type": "String",
+                    "metadata": {
+                      "displayName": "Enable logs",
+                      "description": "Whether to enable logs stream to the Log Analytics workspace - True or False"
+                    },
+                    "allowedValues": [
+                      "True",
+                      "False"
+                    ],
+                    "defaultValue": "True"
                   },
                   "activitylogsEffect": {
                     "type": "String",
@@ -665,6 +973,24 @@
                 },
                 "policyDefinitions": [
                   {
+                    "policyDefinitionReferenceId": "Deploy Diagnostic Settings for Azure Container Instances to Log Analytics workspace (CloudBlox™)",
+                    "policyDefinitionId": "[format('/providers/Microsoft.Management/managementgroups/{0}/providers/Microsoft.Authorization/policyDefinitions/00a7c962-7e8d-4fbf-b286-c9cc3646a2b8', parameters('managementGroupId'))]",
+                    "parameters": {
+                      "logAnalytics": {
+                        "value": "[[parameters('logAnalytics')]"
+                      },
+                      "effect": {
+                        "value": "[[parameters('aciEffect')]"
+                      },
+                      "metricsEnabled": {
+                        "value": "[[parameters('aciMetricsEnabled')]"
+                      },
+                      "logsEnabled": {
+                        "value": "[[parameters('aciLogsEnabled')]"
+                      }
+                    }
+                  },
+                  {
                     "policyDefinitionReferenceId": "Configure Azure Activity logs to stream to specified Log Analytics workspace",
                     "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/2465583e-4e78-4c15-b6be-a36cbc7c8b0f",
                     "parameters": {
@@ -875,7 +1201,10 @@
             }
           }
         }
-      }
+      },
+      "dependsOn": [
+        "[format('Microsoft.Resources/deployments/{0}', 'definitions')]"
+      ]
     },
     {
       "type": "Microsoft.Resources/deployments",
