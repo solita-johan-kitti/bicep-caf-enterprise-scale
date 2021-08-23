@@ -692,7 +692,7 @@ resource monitoringCaCGovernance 'Microsoft.Authorization/policySetDefinitions@2
       // ServiceBus
       {
         policyDefinitionReferenceId: 'Deploy Diagnostic Settings for Service Bus to Log Analytics workspace'
-        policyDefinitionId: '/providers/Microsoft.Authorization/policyDefinitions/2465583e-4e78-4c15-b6be-a36cbc7c8b0f'
+        policyDefinitionId: '/providers/Microsoft.Authorization/policyDefinitions/04d53d87-841c-4f23-8a5b-21564380b55e'
         parameters: {
           logAnalytics: {
             value: '[parameters(\'logAnalytics\')]'
