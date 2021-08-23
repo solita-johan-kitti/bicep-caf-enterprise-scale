@@ -437,7 +437,43 @@ resource monitoringCaCDiagSetLAGovernanceInitiative 'Microsoft.Authorization/pol
       // SQLElasticpools
       // SQLManagedInstance
       // StorageAccount
-      // StreamAnalytics    
+      // StreamAnalytics   
+      streamAnalyticsEffect: {
+        type: 'String'
+        metadata: {
+          displayName: 'Effect'
+          description: 'Enable or disable the execution of the policy'
+        }
+        allowedValues: [
+          'DeployIfNotExists'
+          'Disabled'
+        ]
+        defaultValue: 'DeployIfNotExists'        
+      }
+      streamAnalyticsMetricsEnabled: {
+        type: 'String'
+        metadata: {
+          displayName: 'Enable metrics'
+          description: 'Whether to enable metrics stream to the Log Analytics workspace - True or False'
+        }
+        allowedValues: [
+          'True'
+          'False'
+        ]
+        defaultValue: 'False'
+      }
+      streamAnalyticsLogsEnabled: {
+        type: 'String'
+        metadata: {
+          displayName: 'Enable logs'
+          description: 'Whether to enable logs stream to the Log Analytics workspace - True or False'
+        }
+        allowedValues: [
+          'True'
+          'False'
+        ]
+        defaultValue: 'True'
+      }        
       // TrafficManager
       // VNET
       // VM
