@@ -37,9 +37,10 @@ var tags = {
 // OUTPUTS
 // outputs here can be consumed by an .azcli script to delete deployed resources
 output resourceNamesForCleanup array = [
-  initiatives.outputs.initiativeNames
+  definitions.outputs.deployDiagnosticsSettingsToLogAnalytics
+  monitoringCaCDiagSetLAGovernanceInitiativ.outputs.initiativeName
+  securityGovernanceInitiativ.outputs.initiativeName
   assignments.outputs.assignmentNames
-  //definitions.outputs.monitoringGovernancePolicies
 ]
 
 // RESOURCES
@@ -76,9 +77,9 @@ module definitions 'modules/policy-definitions/definitions.bicep' = {
   }
 }
 
-module initiatives 'modules/policy-initiatives/initiatives.bicep' = {
+module monitoringCaCDiagSetLAGovernanceInitiativ 'modules/policy-initiatives/diagnostic-settings-to-log-analytics-cac-monitoring-governance.bicep' = {
   scope: managementGroup() 
-  name: 'initiatives'
+  name: 'monitoringCaCDiagSetLAGovernanceInitiativ'
   dependsOn: [
     definitions
   ]    
@@ -89,11 +90,23 @@ module initiatives 'modules/policy-initiatives/initiatives.bicep' = {
   }
 }
 
+module securityGovernanceInitiativ 'modules/policy-initiatives/security-governance.bicep' = {
+  scope: managementGroup() 
+  name: 'securityGovernanceInitiativ'
+  dependsOn: [
+    definitions
+  ]    
+  params:{
+    policySource: policySource
+    managementGroupId: managementGroupId
+  }
+}
+
 module assignments 'modules/policy-assignments/assignments.bicep' = {
   scope: managementGroup() 
   name: 'assignments'
   dependsOn: [
-    initiatives
+    monitoringCaCDiagSetLAGovernanceInitiativ
   ]  
   params: {
     managementGroupID: managementGroupId
@@ -101,6 +114,7 @@ module assignments 'modules/policy-assignments/assignments.bicep' = {
     policySource: policySource
     assignmentIdentityLocation: location
     assignmentEnforcementMode: assignmentEnforcementMode
-    monitoringCaCDiagSetLAGovernanceInitiativId: initiatives.outputs.initiativeIDs[0]
+    monitoringCaCDiagSetLAGovernanceInitiativId: monitoringCaCDiagSetLAGovernanceInitiativ.outputs.initiativeID
+    securityGovernanceInitiativId: securityGovernanceInitiativ.outputs.initiativeID
   }  
 }

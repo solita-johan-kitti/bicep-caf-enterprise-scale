@@ -5,6 +5,7 @@ param policySource string
 param assignmentIdentityLocation string
 param assignmentEnforcementMode string
 param monitoringCaCDiagSetLAGovernanceInitiativId string
+param securityGovernanceInitiativId string
 param managementGroupID string
 @description('The name of the log anaylytic workspace to send diagnostic logs to.')
 param logAnalyticsWorkspace string
@@ -35,8 +36,9 @@ resource monitoringCaCDiagSetLAGovernanceAssignment 'Microsoft.Authorization/pol
     description: 'The CloudBlox™ Governance Diagnostic Settings to Log Analytics Monitoring Compliance As Code (CaC) Governance Assignment'
     enforcementMode: assignmentEnforcementMode
     metadata: {
-      source: policySource
+      category: 'CloudBlox™ - Monitoring (CaC)'
       version: '0.1.0'
+      source: policySource
     }
     policyDefinitionId: monitoringCaCDiagSetLAGovernanceInitiativId
     parameters: {
@@ -45,6 +47,40 @@ resource monitoringCaCDiagSetLAGovernanceAssignment 'Microsoft.Authorization/pol
       }  
     } 
  /*   nonComplianceMessages: [
+      {
+        message: 'message'
+      }
+      {
+        message: 'message'
+        policyDefinitionReferenceId: 'policyDefinitionReferenceId'
+      }
+    ]*/   
+  }
+}
+
+resource securityGovernanceAssignment 'Microsoft.Authorization/policyAssignments@2020-09-01' = {
+  name: 'securityGov' // Max length 24 char
+  location: assignmentIdentityLocation
+  identity: {
+    type: 'SystemAssigned'
+  }
+  properties: {
+    displayName: 'Security Governance (CloudBlox™)'
+    description: 'Assignment of the Security Governance initiative to management group (CloudBlox™).'
+    enforcementMode: assignmentEnforcementMode
+    metadata: {
+      category: 'CloudBlox™ - Security (CaC)'
+      version: '0.1.0'
+      source: policySource
+    }
+    policyDefinitionId: securityGovernanceInitiativId
+ /*
+    parameters: {
+      logAnalytics: {
+        value: logAnalyticsWorkspace
+      }  
+    } 
+    nonComplianceMessages: [
       {
         message: 'message'
       }

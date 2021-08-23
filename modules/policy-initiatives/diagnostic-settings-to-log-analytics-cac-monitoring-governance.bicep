@@ -32,13 +32,9 @@ param monitoringGovernanceBuiltInPolicies array = [
 // VARIABLES
 
 // OUTPUTS
-output initiativeIDs array = [
-  // When scope is management group the initiativ id not returning the full id
-  '${tenantResourceId('Microsoft.Management/managementGroups', managementGroupId)}${tenantResourceId('Microsoft.Authorization/policySetDefinitions', monitoringCaCDiagSetLAGovernanceInitiative.name)}' 
-]
-output initiativeNames array = [
-  monitoringCaCDiagSetLAGovernanceInitiative.name
-]
+// When scope is management group the initiativ id not returning the full id
+output initiativeID string = '${tenantResourceId('Microsoft.Management/managementGroups', managementGroupId)}${tenantResourceId('Microsoft.Authorization/policySetDefinitions', monitoringCaCDiagSetLAGovernanceInitiative.name)}' 
+output initiativeName string = monitoringCaCDiagSetLAGovernanceInitiative.name
 
 // RESOURCES
 
