@@ -701,7 +701,7 @@ resource monitoringCaCGovernance 'Microsoft.Authorization/policySetDefinitions@2
             value: '[parameters(\'serviceBusEffect\')]'
           }
           metricsEnabled: {
-            value: '[parameters(\'serviceBustMetricsEnabled\')]' 
+            value: '[parameters(\'serviceBusMetricsEnabled\')]' 
           }
           logsEnabled: {
             value: '[parameters(\'serviceBusLogsEnabled\')]'
