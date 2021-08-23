@@ -57,8 +57,7 @@ resource monitoringCaCDiagSetLAGovernanceAssignment 'Microsoft.Authorization/pol
 }
 
 resource monitoringGovernanceRoleAssignment 'Microsoft.Authorization/roleAssignments@2018-01-01-preview' = {
-  //name: guid(monitoringCaCDiagSetLAGovernanceAssignment.name, monitoringCaCDiagSetLAGovernanceAssignment.type, managementGroupID)
-  name: '${managementGroupID}-${monitoringCaCDiagSetLAGovernanceAssignment.name}'
+  name: guid(monitoringCaCDiagSetLAGovernanceAssignment.name, monitoringCaCDiagSetLAGovernanceAssignment.type, managementGroupID)
   properties: {
     principalId: monitoringCaCDiagSetLAGovernanceAssignment.identity.principalId
     //roleDefinitionId: '/providers/microsoft.authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c' // contributor RBAC role for deployIfNotExists/modify effects
