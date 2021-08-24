@@ -9,7 +9,7 @@ targetScope = 'managementGroup'
 // PARAMETERS   
 param policySource string
 param managementGroupId string
-param customPolicyIDs array
+//param customPolicyIDs array
 //param monitoringGovernancePolicies array
 /*
 param monitoringGovernanceBuiltInPolicies array = [
@@ -85,7 +85,6 @@ resource monitoringCaCDiagSetLAGovernanceInitiative 'Microsoft.Authorization/pol
         ]
         defaultValue: 'False'
       }
-    
       // ACR
       acrEffect: {
         type: 'String'
@@ -149,6 +148,114 @@ resource monitoringCaCDiagSetLAGovernanceInitiative 'Microsoft.Authorization/pol
         defaultValue: 'True'
       }            
       // AKS
+      aksEffect: {
+        type: 'String'
+        metadata: {
+          displayName: 'Effect'
+          description: 'Enable or disable the execution of the policy'
+        }
+        allowedValues: [
+          'DeployIfNotExists'
+          'Disabled'
+        ]
+        defaultValue: 'DeployIfNotExists'        
+      }      
+      aksAllMetrics: {
+        type: 'String'
+        metadata: {
+          displayName: 'AllMetrics - Enabled'
+          description: 'Whether to stream AllMetrics logs to the Log Analytics workspace - True or False'
+        }
+        allowedValues: [
+          'True'
+          'False'
+        ]
+        defaultValue: 'True'
+      }
+      'aks-kube-apiserver': {
+        type: 'String'
+        metadata: {
+          displayName: 'kube-apiserver - Enabled'
+          description: 'Whether to stream kube-apiserver logs to the Log Analytics workspace - True or False'
+        }
+        allowedValues: [
+          'True'
+          'False'
+        ]
+        defaultValue: 'True'
+      }
+      'aks-kube-audit': {
+        type: 'String'
+        metadata: {
+          displayName: 'kube-audit - Enabled'
+          description: 'Whether to stream kube-audit logs to the Log Analytics workspace - True or False'
+        }
+        allowedValues: [
+          'True'
+          'False'
+        ]
+        defaultValue: 'True'
+      }
+      'aks-kube-controller-manager': {
+        type: 'String'
+        metadata: {
+          displayName: 'kube-controller-manager - Enabled'
+          description: 'Whether to stream kube-controller-manager logs to the Log Analytics workspace - True or False'
+        }
+        allowedValues: [
+          'True'
+          'False'
+        ]
+        defaultValue: 'True'
+      }
+      'aks-kube-scheduler': {
+        type: 'String'
+        metadata: {
+          displayName: 'kube-scheduler - Enabled'
+          description: 'Whether to stream kube-scheduler logs to the Log Analytics workspace - True or False'
+        }
+        allowedValues: [
+          'True'
+          'False'
+        ]
+        defaultValue: 'True'
+      }
+      'aks-cluster-autoscaler': {
+        type: 'String'
+        metadata: {
+          displayName: 'cluster-autoscaler - Enabled'
+          description: 'Whether to stream cluster-autoscaler logs to the Log Analytics workspace - True or False'
+        }
+        allowedValues: [
+          'True'
+          'False'
+        ]
+        defaultValue: 'True'
+      }
+      'aks-kube-audit-admin': {
+        type: 'String'
+        metadata: {
+          displayName: 'kube-audit-admin - Enabled'
+          description: 'Whether to stream kube-audit-admin logs to the Log Analytics workspace - True or False'
+        }
+        allowedValues: [
+          'True'
+          'False'
+        ]
+        defaultValue: 'True'
+      }
+      'aks-guard': {
+        type: 'String'
+        metadata: {
+          displayName: 'guard - Enabled'
+          description: 'Whether to stream guard logs to the Log Analytics workspace - True or False'
+        }
+        allowedValues: [
+          'True'
+          'False'
+        ]
+        defaultValue: 'True'
+      }      
       // AnalysisService
       // APIMgmt
       // ApplicationGateway
@@ -587,7 +694,7 @@ resource monitoringCaCDiagSetLAGovernanceInitiative 'Microsoft.Authorization/pol
     }
  
     policyDefinitions: [
-      // ACI
+      // ACI (Custom)
       {
         policyDefinitionReferenceId: 'Deploy Diagnostic Settings for Azure Container Instances to Log Analytics workspace (CloudBlox™)'
         policyDefinitionId: '/providers/Microsoft.Management/managementgroups/${managementGroupId}/providers/Microsoft.Authorization/policyDefinitions/6eb49361-4964-401a-b0bb-fa7f77b30baf'
@@ -603,7 +710,7 @@ resource monitoringCaCDiagSetLAGovernanceInitiative 'Microsoft.Authorization/pol
           }
         }
       }      
-      // ACR
+      // ACR (Custom)
       {
         policyDefinitionReferenceId: 'Deploy Diagnostic Settings for Azure Container Registry to Log Analytics workspace (CloudBlox™)'
         policyDefinitionId: '/providers/Microsoft.Management/managementgroups/${managementGroupId}/providers/Microsoft.Authorization/policyDefinitions/38cc0630-c239-41df-a8ee-ae4cb21bfbc3'
@@ -622,7 +729,7 @@ resource monitoringCaCDiagSetLAGovernanceInitiative 'Microsoft.Authorization/pol
           }
         }
       }        
-      // ActivityLogs
+      // ActivityLogs (Build-in)
       {
         policyDefinitionReferenceId: 'Configure Azure Activity logs to stream to specified Log Analytics workspace'
         policyDefinitionId: '/providers/Microsoft.Authorization/policyDefinitions/2465583e-4e78-4c15-b6be-a36cbc7c8b0f'
@@ -638,12 +745,49 @@ resource monitoringCaCDiagSetLAGovernanceInitiative 'Microsoft.Authorization/pol
           }
         }
       }        
-      // AKS
+      // AKS (Build-in)
+      {
+        // Deploy - Configure diagnostic settings for Azure Kubernetes Service to Log Analytics workspace
+        policyDefinitionReferenceId: 'Deploy Diagnostic Settings for Azure Kubernetes Service to Log Analytics workspace'
+        policyDefinitionId: '/providers/Microsoft.Authorization/policyDefinitions/6c66c325-74c8-42fd-a286-a74b0e2939d8'
+        parameters: {
+          logAnalytics: {
+            value: '[parameters(\'logAnalytics\')]'
+          }
+          effect: {
+            value: '[parameters(\'aksEffect\')]'
+          }
+          AllMetrics: {
+            value: '[parameters(\'aksAllMetrics\')]' 
+          }
+          'kube-apiserver': {
+            value: '[parameters(\'aks-kube-apiserver\')]'
+          }
+          'kube-audi': {
+            value: '[parameters(\'aks-kube-audi\')]'
+          }
+          'kube-controller-manager': {
+            value: '[parameters(\'aks-kube-controller-manager\')]'
+          }  
+          'kube-scheduler': {
+            value: '[parameters(\'aks-kube-scheduler\')]'
+          }  
+          'cluster-autoscaler': {
+            value: '[parameters(\'aks-cluster-autoscaler\')]'
+          } 
+          'kube-audit-admin': {
+            value: '[parameters(\'aks-kube-audit-admin\')]'
+          } 
+          'guard': {
+            value: '[parameters(\'aks-guard\')]'
+          }                                                              
+        }
+      }       
       // AnalysisService
       // APIMgmt
       // ApplicationGateway
       // AutomationAccount
-      // BatchAccount
+      // BatchAccount (Build-in)
       {
         policyDefinitionReferenceId: 'Deploy Diagnostic Settings for Batch Account to Log Analytics workspace'
         policyDefinitionId: '/providers/Microsoft.Authorization/policyDefinitions/c84e5349-db6d-4769-805e-e14037dab9b5'
@@ -667,7 +811,7 @@ resource monitoringCaCDiagSetLAGovernanceInitiative 'Microsoft.Authorization/pol
       // CosmosDB
       // DataBricks
       // DataFactory
-      // DataLakeAnalytics  
+      // DataLakeAnalytics (Build-in)  
       {
         policyDefinitionReferenceId: 'Deploy Diagnostic Settings for Data Lake Analytics to Log Analytics workspace'
         policyDefinitionId: '/providers/Microsoft.Authorization/policyDefinitions/d56a5a7c-72d7-42bc-8ceb-3baf4c0eae03'
@@ -686,7 +830,7 @@ resource monitoringCaCDiagSetLAGovernanceInitiative 'Microsoft.Authorization/pol
           }
         }
       }            
-      // DataLakeStore
+      // DataLakeStore (Build-in)
       {
         policyDefinitionReferenceId: 'Deploy Diagnostic Settings for Data Lake Storage Gen1 to Log Analytics workspace'
         policyDefinitionId: '/providers/Microsoft.Authorization/policyDefinitions/25763a0a-5783-4f14-969e-79d4933eb74b'
@@ -708,7 +852,7 @@ resource monitoringCaCDiagSetLAGovernanceInitiative 'Microsoft.Authorization/pol
       // EventGridSubscription
       // EventGridSystemTopics
       // EventGridTopic
-      // EventHub
+      // EventHub (Build-in)
       {
         policyDefinitionReferenceId: 'Deploy Diagnostic Settings for Event Hub to Log Analytics workspace'
         policyDefinitionId: '/providers/Microsoft.Authorization/policyDefinitions/1f6e93e8-6b31-41b1-83f6-36e449a42579'
@@ -732,7 +876,7 @@ resource monitoringCaCDiagSetLAGovernanceInitiative 'Microsoft.Authorization/pol
       // FrontDoor
       // HDInsight
       // IoTHub
-      // KeyVault
+      // KeyVault (Build-in)
       {
         policyDefinitionReferenceId: 'Deploy Diagnostic Settings for Key Vault to Log Analytics workspace'
         policyDefinitionId: '/providers/Microsoft.Authorization/policyDefinitions/bef3f64c-5290-43b7-85b0-9b254eef4c47'
@@ -752,7 +896,7 @@ resource monitoringCaCDiagSetLAGovernanceInitiative 'Microsoft.Authorization/pol
         }
       }      
       // LoadBalancer
-      // LogicAppsWF
+      // LogicAppsWF (Build-in)
       {
         policyDefinitionReferenceId: 'Deploy Diagnostic Settings for Logic Apps to Log Analytics workspace'
         policyDefinitionId: '/providers/Microsoft.Authorization/policyDefinitions/b889a06c-ec72-4b03-910a-cb169ee18721'
@@ -780,7 +924,7 @@ resource monitoringCaCDiagSetLAGovernanceInitiative 'Microsoft.Authorization/pol
       // PostgressSQL
       // PowerBIEmbedded
       // PublicIP
-      // RecoveryVault
+      // RecoveryVault (Build-in)
       {
         policyDefinitionReferenceId: 'Deploy Diagnostic Settings for Recovery Services Vault to Log Analytics workspace for resource specific categories.'
         policyDefinitionId: '/providers/Microsoft.Authorization/policyDefinitions/c717fb0c-d118-4c43-ab3d-ece30ac81fb3'
@@ -798,7 +942,7 @@ resource monitoringCaCDiagSetLAGovernanceInitiative 'Microsoft.Authorization/pol
       }          
       // RedisCache
       // Realy
-      // SearchService
+      // SearchService (Build-in)
       {
         policyDefinitionReferenceId: 'Deploy Diagnostic Settings for Search Services to Log Analytics workspace'
         policyDefinitionId: '/providers/Microsoft.Authorization/policyDefinitions/08ba64b8-738f-4918-9686-730d2ed79c7d'
@@ -817,7 +961,7 @@ resource monitoringCaCDiagSetLAGovernanceInitiative 'Microsoft.Authorization/pol
           }
         }
       }      
-      // ServiceBus
+      // ServiceBus (Build-in)
       {
         policyDefinitionReferenceId: 'Deploy Diagnostic Settings for Service Bus to Log Analytics workspace'
         policyDefinitionId: '/providers/Microsoft.Authorization/policyDefinitions/04d53d87-841c-4f23-8a5b-21564380b55e'
@@ -842,7 +986,7 @@ resource monitoringCaCDiagSetLAGovernanceInitiative 'Microsoft.Authorization/pol
       // SQLElasticpools
       // SQLManagedInstance
       // StorageAccount
-      // StreamAnalytics
+      // StreamAnalytics (Build-in)
       {
         policyDefinitionReferenceId: 'Deploy Diagnostic Settings for Stream Analytics to Log Analytics workspace'
         policyDefinitionId: '/providers/Microsoft.Authorization/policyDefinitions/237e0f7e-b0e8-4ec4-ad46-8c12cb66d673'

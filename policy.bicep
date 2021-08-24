@@ -86,7 +86,7 @@ module monitoringCaCDiagSetLAGovernanceInitiativ 'modules/policy-initiatives/dia
   params:{
     policySource: policySource
     managementGroupId: managementGroupId
-    customPolicyIDs: definitions.outputs.deployDiagnosticsSettingsToLogAnalytics
+//    customPolicyIDs: definitions.outputs.deployDiagnosticsSettingsToLogAnalytics
   }
 }
 
@@ -94,6 +94,24 @@ module securityGovernanceInitiativ 'modules/policy-initiatives/security-governan
   scope: managementGroup() 
   name: 'securityGovernanceInitiativ'
   dependsOn: [
+    // Need to set depends on. We are expecting that the custom definitions exist in azure.
+    // We could send in a array of the policy created in the definitions module but the goal is
+    // to us the policy in same wy as for built-in once that alrady exist to get code for both
+    definitions
+  ]    
+  params:{
+    policySource: policySource
+    managementGroupId: managementGroupId
+  }
+}
+
+module iamGovernanceInitiativ 'modules/policy-initiatives/iam-governance.bicep' = {
+  scope: managementGroup() 
+  name: 'iamGovernanceInitiativ'
+  dependsOn: [
+    // Need to set depends on. We are expecting that the custom definitions exist in azure.
+    // We could send in a array of the policy created in the definitions module but the goal is
+    // to us the policy in same wy as for built-in once that alrady exist to get code for both
     definitions
   ]    
   params:{
@@ -116,5 +134,6 @@ module assignments 'modules/policy-assignments/assignments.bicep' = {
     assignmentEnforcementMode: assignmentEnforcementMode
     monitoringCaCDiagSetLAGovernanceInitiativId: monitoringCaCDiagSetLAGovernanceInitiativ.outputs.initiativeID
     securityGovernanceInitiativId: securityGovernanceInitiativ.outputs.initiativeID
+    iamGovernanceInitiativId: iamGovernanceInitiativ.outputs.initiativeID
   }  
 }
